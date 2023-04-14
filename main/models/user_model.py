@@ -1,6 +1,6 @@
 from .. import db
-
-class Users(db.Model):
+#from .message_model import MessageModel
+class UserModel(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(128), unique=True, index=True, nullable=False)
@@ -14,7 +14,7 @@ class Users(db.Model):
     rol = db.Column(db.Boolean, nullable=False)
     diabetes_type = db.Column(db.String(64), nullable=False)
     doctor_license = db.Column(db.String(64), nullable=False)
-    message = db.relationship("messages", back_populates="users", cascade="all, delete-orphan")
+    message = db.relationship("messages", back_populates="user", cascade="all, delete-orphan")
     nutritional_record = db.relationship("nutritional records", back_populates="users", cascade="all, delete-orphan")
 
     def __repr__(self):

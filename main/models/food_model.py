@@ -1,6 +1,6 @@
 from .. import db
 
-class Foods(db.Model):
+class FoodModel(db.Model):
     __tablename__ = 'foods'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)

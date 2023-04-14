@@ -2,8 +2,13 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from flask_restful import Api
+
+
 
 db = SQLAlchemy()
+api = Api()
 
 def create_app():
     app = Flask(__name__)
@@ -13,11 +18,23 @@ def create_app():
         'DATABASE_PASSWORD') + '@' + os.getenv('DATABASE_URL') + ':' + os.getenv('DATABASE_PORT') + '/' + os.getenv(
         'DATABASE_NAME')
     db.init_app(app)
+    ma = Marshmallow(app)
 
-    #from main.resources import home
-    #from main.resources import users
-    #app.register_blueprint(home)
-    #app.register_blueprint(users, url_prefix='/users')
+    # Importamos los endpoints(resources)
+    from main.resources import user_resource
+    api.add_resource(user_resource.UsersResource, '/users')
+    api.add_resource(user_resource.UserResource, '/users/<id>')
+    from main.resources import nutritional_record_resource
+    api.add_resource(nutritional_record_resource.NutritionalRecordsResource, '/nutritional_records')
+    api.add_resource(nutritional_record_resource.NutritionalRecordResource, '/nutritional_records/<id>')
+    from main.resources import food_resource
+    api.add_resource(food_resource.FoodsResource, '/foods')
+    api.add_resource(food_resource.FoodResource, '/foods/<id>')
+    from main.resources import message_resource
+    api.add_resource(message_resource.MessagesResource, '/messages')
+    api.add_resource(message_resource.MessageResource, '/messages/<id>')
+    api.init_app(app)
+
     return app
 
 

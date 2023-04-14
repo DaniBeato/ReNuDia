@@ -1,11 +1,11 @@
 from .. import db
 
-class NutritionalRecords(db.Model):
+class NutritionalRecordModel(db.Model):
     __tablename__ = 'nutritional records'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
-    food_id = db.Column(db.Integer, db.ForeignKey('food.id'), nullable=False)
+    food_id = db.Column(db.Integer, db.ForeignKey('foods.id'), nullable=False)
     glucose_value = db.Column(db.Integer, nullable=False)
     user = db.relationship("users", back_populates="nutritional records", uselist=False, single_parent=True)
     food = db.relationship("foods", back_populates="nutritional records", uselist=False, single_parent=True)
