@@ -1,5 +1,6 @@
 from .. import db
 
+
 class NutritionalRecordModel(db.Model):
     __tablename__ = 'nutritional records'
     id = db.Column(db.Integer, primary_key=True)
@@ -7,8 +8,8 @@ class NutritionalRecordModel(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     food_id = db.Column(db.Integer, db.ForeignKey('foods.id'), nullable=False)
     glucose_value = db.Column(db.Integer, nullable=False)
-    user = db.relationship("users", back_populates="nutritional records", uselist=False, single_parent=True)
-    food = db.relationship("foods", back_populates="nutritional records", uselist=False, single_parent=True)
+    users = db.relationship("UserModel", back_populates="nutritional_records", uselist=False, single_parent=True)
+    foods = db.relationship("FoodModel", back_populates="nutritional_records", uselist=False, single_parent=True)
 
 
     def __repr__(self):

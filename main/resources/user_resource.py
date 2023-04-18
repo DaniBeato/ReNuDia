@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask import request
 from main.repositories.user_repository import UserRepository
 from main.maps.user_schema import UserSchema
+from .. import db
 
 
 user_repository = UserRepository()
@@ -12,10 +13,11 @@ user_schema = UserSchema()
 class UsersResource(Resource):
     def get(self):
         users = user_repository.get_all()
-        return user_schema.dump(users.all(), many = True)
+        return user_schema.dump(users, many = True)
 
     def post(self):
-        user = user_schema.load(request.get_json())
+        session = db.session.session_factory()
+        user = user_schema.load(request.get_json(), session=session)
         user_repository.create(user)
         return user_schema.dump(user), "Usuario Creado"
 

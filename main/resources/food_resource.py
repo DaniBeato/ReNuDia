@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask import request
 from main.repositories.food_repository import FoodRepository
 from main.maps.food_schema import FoodSchema
+from .. import db
 
 
 food_repository = FoodRepository()
@@ -10,10 +11,11 @@ food_schema = FoodSchema()
 class FoodsResource(Resource):
     def get(self):
         foods = food_repository.get_all()
-        return food_schema.dump(foods.all(), many = True)
+        return food_schema.dump(foods, many = True)
 
     def post(self):
-        food = food_schema.load(request.get_json())
+        session = db.session.session_factory()
+        food = food_schema.load(request.get_json(), session=session)
         food_repository.create(food)
         return food_schema.dump(food), "Comida Creada"
 

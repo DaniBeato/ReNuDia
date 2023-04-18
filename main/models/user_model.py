@@ -1,5 +1,7 @@
+from .message_model import MessageModel
 from .. import db
-#from .message_model import MessageModel
+
+
 class UserModel(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -12,10 +14,15 @@ class UserModel(db.Model):
     height = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.Boolean, nullable=False)
     rol = db.Column(db.Boolean, nullable=False)
-    diabetes_type = db.Column(db.String(64), nullable=False)
-    doctor_license = db.Column(db.String(64), nullable=False)
-    message = db.relationship("messages", back_populates="user", cascade="all, delete-orphan")
-    nutritional_record = db.relationship("nutritional records", back_populates="users", cascade="all, delete-orphan")
+    diabetes_type = db.Column(db.String(64), nullable=True)
+    doctor_license = db.Column(db.String(64), nullable=True)
+    messages_sent = db.relationship("MessageModel", back_populates="senders",
+                                    primaryjoin="MessageModel.sender_id==UserModel.id", cascade="all, delete-orphan")
+    messages_recept = db.relationship("MessageModel", back_populates="receptors",
+                                    primaryjoin="MessageModel.receptor_id==UserModel.id", cascade="all, delete-orphan")
+    nutritional_records = db.relationship("NutritionalRecordModel",
+                                         primaryjoin="NutritionalRecordModel.user_id==UserModel.id",
+                                         back_populates="users", cascade="all, delete-orphan")
 
     def __repr__(self):
         return "<Id: %r, Email: %r, Password: %r, Name: %r, Surname: %r, Age: %r, Weight: %r, Height: %r, Gender: %r, "\

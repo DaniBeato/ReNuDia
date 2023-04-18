@@ -13,7 +13,6 @@ class NutritionalRecordRepository:
         return self.nutritional_records.query.get(id)
 
 
-
     def create(self, nutritional_record):
         db.session.add(nutritional_record)
         db.session.commit()
