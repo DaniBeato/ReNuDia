@@ -8,6 +8,7 @@ from flask_restful import Api
 
 
 db = SQLAlchemy()
+ma = Marshmallow()
 api = Api()
 
 def create_app():
@@ -18,7 +19,7 @@ def create_app():
         'DATABASE_PASSWORD') + '@' + os.getenv('DATABASE_URL') + ':' + os.getenv('DATABASE_PORT') + '/' + os.getenv(
         'DATABASE_NAME')
     db.init_app(app)
-    ma = Marshmallow(app)
+    ma.init_app(app)
 
     # Importamos los endpoints(resources)
     from main.resources import user_resource
