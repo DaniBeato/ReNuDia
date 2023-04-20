@@ -1,7 +1,9 @@
 #from marshmallow import Schema, fields, validate
 #from marshmallow.decorators import post_load
 from main.models.nutritional_record_model import NutritionalRecordModel
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
+from main.maps.user_schema import UserSchema
+from main.maps.food_schema import FoodSchema
 
 
 '''class NutritionalRecordSchema(Schema):
@@ -26,4 +28,6 @@ class NutritionalRecordSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         include_fk = True
 
+    users = fields.Nested((UserSchema), exclude = ('nutritional_records', 'messages_sent', 'messages_recept',))
+    foods = fields.Nested((FoodSchema), exclude = ('nutritional_records',))
 

@@ -1,7 +1,8 @@
 #from marshmallow import Schema, fields, validate
 #from marshmallow.decorators import post_load
 from main.models.message_model import MessageModel
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
+from .user_schema import UserSchema
 
 
 '''class MessageSchema(Schema):
@@ -22,6 +23,10 @@ class MessageSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_relationships = True
         include_fk = True
+
+
+    senders = fields.Nested((UserSchema), exclude =('nutritional_records', 'messages_sent', 'messages_recept',))
+    receptors = fields.Nested((UserSchema), exclude =('nutritional_records', 'messages_sent', 'messages_recept',))
 
 
 
