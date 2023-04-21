@@ -1,0 +1,140 @@
+{% if current_user.is_authenticated %}
+    {% extends './main/Main(con_registro)(40).html' %}
+{% else %}
+    {% extends './main/Main(sin_registro)(37).html' %}
+{% endif %}
+
+{% block body %}
+    <div class ="container-fluid">
+        <div class="row">
+            <div class="col-md-12">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+            <div class="col-md-1">
+                <button onclick="goBack()">Cerrar</button>
+                    <script>
+                        function goBack() {window.history.back();}
+                    </script>
+                </div>
+            </div>
+            <div class='col-md-1'></div>
+            <div class="col-md-9">
+                <h1 class="card-title"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menú Administrador</b></h1>
+            </div>
+            <div class='col-md-1'></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><br><br><br>&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-0.5"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Modificar Información Personal </h5>
+                        <a href="{{ url_for('usuario.administrador', id = id) }}" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Proveedores</h5>
+                        <a href="/usuario/proveedores" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Bolsones </h5>
+                        <a href="/bolson/bolsones" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Bolsones Pendientes</h5>
+                        <a href="/bolson/bolsones_pendientes" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-0.5"></div>
+        </div>
+         <div class="row">
+            <div class="col-md-12"><br>&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-0.5"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Bolsones Previos </h5>
+                        <a href="/bolson/bolsones_previos" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Bolsones en Venta </h5>
+                        <a href="/bolson/bolsones_en_venta" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Clientes</h5>
+                        <a href="/usuario/clientes" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Compras</h5>
+                        <a href="/usuario/compras" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-0.5"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><br>&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-0.5"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Productos </h5>
+                        <a href="/bolson/productos" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-0.5"></div>
+            <div class="col-md-2">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Administradores </h5>
+                        <a href="/usuario/administradores" class="card-link">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><br>&nbsp;</div>
+        </div>
+    </div>
+{% endblock %}

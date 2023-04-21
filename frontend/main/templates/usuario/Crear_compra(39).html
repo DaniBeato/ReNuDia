@@ -1,0 +1,75 @@
+{% if current_user.is_authenticated %}
+    {% extends './main/Main(con_registro)(40).html' %}
+{% else %}
+    {% extends './main/Main(sin_registro)(37).html' %}
+{% endif %}
+{% import 'macros/header.html' as macro_header %}
+{% from 'macros/form.html' import show_field, show_submit %}
+
+
+{% block body %}
+    <div class ="container-fluid">
+        {{ macro_header.show_header(header) }}
+        <form method="POST" action="{{ url_for('usuario.crear_compra') }}" >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="input-group mb-3">
+                        {{  show_field(form.usuario_ID, class='form-control')}}
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><br>&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="input-group mb-3">
+                        {{  show_field(form.bolsonID, class='form-control') }}
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><br>&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="input-group mb-3">
+                        {{  show_field(form.fecha_compra, class='form-control') }}
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><br>&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="input-group mb-3">
+                        {{  show_field(form.retirado, class='form-control')}}
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><br>&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-3">
+                    {{ show_submit(form.submit , class='btn btn-success')}}
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">&nbsp;</div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
