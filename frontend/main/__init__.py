@@ -16,5 +16,4 @@ def create_app():
     #csrf.init_app(app)
     from main.routes import main
     app.register_blueprint(routes.main.main)
-
     return app
