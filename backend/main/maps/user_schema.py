@@ -1,7 +1,8 @@
 #from marshmallow import Schema, fields
-#from marshmallow.decorators import post_load
+#from marshmallow.decorators import post_load, post_dump
 from main.models.user_model import UserModel
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+
 
 
 
@@ -36,6 +37,10 @@ class UserSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_relationships = True
         include_fk = True
+
+
+
+
 
 
 

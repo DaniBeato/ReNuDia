@@ -1,6 +1,5 @@
 from .. import db
 
-
 class NutritionalRecordModel(db.Model):
     __tablename__ = 'nutritional records'
     id = db.Column(db.Integer, primary_key=True)

@@ -13,12 +13,12 @@ user_schema = UserSchema()
 
 class UsersResource(Resource):
 
-    @login_required
+    #@login_required
     def get(self):
         users = user_repository.get_all()
         return user_schema.dump(users, many = True)
 
-
+    @login_required
     def post(self):
         session = db.session.session_factory()
         user = user_schema.load(request.get_json(), session=session)

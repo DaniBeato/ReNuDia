@@ -34,14 +34,3 @@ class UserModel(db.Model):
 
 
 
-    @property
-    def plain_password(self):
-        raise AttributeError('La contraseña no se puede mostrar')
-
-    @plain_password.setter
-    def plain_password(self, password):
-        self.password = generate_password_hash(password)
-
-
-    def validate_password(self, password):
-        return check_password_hash(self.password, password)

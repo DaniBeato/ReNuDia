@@ -28,8 +28,8 @@ def create_app():
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(os.getenv('JWT_ACCESS_TOKEN_EXPIRES'))
     jwt.init_app(app)
 
-    #from main.auth import auth
-    #app.register_blueprint(auth.auth.auth)
+    from main.auth import auth
+    app.register_blueprint(auth.auth)
 
     # Importamos los endpoints(resources)
     from main.resources import user_resource
