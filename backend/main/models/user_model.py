@@ -1,5 +1,6 @@
 from .message_model import MessageModel
 from .. import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class UserModel(db.Model):
@@ -12,8 +13,8 @@ class UserModel(db.Model):
     age = db.Column(db.Integer, nullable=False)
     weight = db.Column(db.Integer, nullable=False)
     height = db.Column(db.Integer, nullable=False)
-    gender = db.Column(db.Boolean, nullable=False)
-    rol = db.Column(db.Boolean, nullable=False)
+    gender = db.Column(db.String(64), nullable=False)
+    rol = db.Column(db.String(64), nullable=False)
     diabetes_type = db.Column(db.String(64), nullable=True)
     doctor_license = db.Column(db.String(64), nullable=True)
     messages_sent = db.relationship("MessageModel", back_populates="senders",
@@ -30,3 +31,17 @@ class UserModel(db.Model):
                                                                        self.surname,self.age, self.weight, self.height,
                                                                        self.gender, self.rol, self.diabetes_type,
                                                                        self.doctor_license)
+
+
+
+    @property
+    def plain_password(self):
+        raise AttributeError('La contraseña no se puede mostrar')
+
+    @plain_password.setter
+    def plain_password(self, password):
+        self.password = generate_password_hash(password)
+
+
+    def validate_password(self, password):
+        return check_password_hash(self.password, password)

@@ -13,6 +13,16 @@ class MessageRepository:
         return self.messages.query.get(id)
 
 
+    def get_by_sender_id(self, sender_id):
+        return self.messages.query.filter_by(sender_id=sender_id).order_by(self.messages.id).all()
+
+    def get_by_receptor_id(self, receptor_id):
+        return self.messages.query.filter_by(receptor_id=receptor_id).order_by(self.messages.id).all()
+
+
+    def sort_by_id(self, messages):
+        return sorted(messages, key=lambda x: x.id)
+
     def create(self, message):
         db.session.add(message)
         db.session.commit()
