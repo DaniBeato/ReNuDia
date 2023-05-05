@@ -71,5 +71,23 @@ class RegisterForm(FlaskForm):
     #rol = SelectField('Rol')
 
 
-    submit = SubmitField('Registrarse')
+    submit = SubmitField('register')
+
+
+class LoginForm(FlaskForm):
+    email = EmailField('email',
+                       [
+                           validators.data_required(message="Debe introducir su email"),
+                           validators.Email(message='Formato inválido'),
+                       ])
+
+    password = PasswordField('password',
+                             [
+                                 validators.data_required(message='Debe introducir su contraseña'),
+                                 validators.Length(min=3)
+                             ])
+
+
+    submit = SubmitField('login')
+
 

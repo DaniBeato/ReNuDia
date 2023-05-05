@@ -54,7 +54,7 @@ def register():
             'access_token': access_token,
             'rol': user.rol
         }
-        return data, 201
+        return data, 200
 
 
 

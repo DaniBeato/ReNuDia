@@ -7,50 +7,37 @@
   ReNuDia | Home
 {% endblock %}
 
+{% from 'macros/form.html' import show_field, show_submit %}
 {% block body %}
 
     <!-- FORM -->
     <div class="row">
 
+        <!-- MESSAGE -->
+        {% include 'partials/_message.html' %}
+
         <div class="col-md-5 p-5">
-            <!-- MESSAGE -->
-            {% include 'partials/_message.html' %}
 
             <!-- FORM -->
-            <form action="/new" method="POST" class="card bg-black text-light">
-              <div class="card-body p-4">
+            <form action="{{ url_for('main.main_view') }}" method="POST" class="card bg-black text-light">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="card-body p-4">
                 <h1 class="h5 mb-4">Añadir registro nutricional</h1>
 
                 <div class="mb-3">
-                  <label for="date">Fecha y hora:</label>
-                  <input
-                    type="text"
-                    name="date"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
-                    placeholder="Introduzca la fecha y la hora"
-                    autofocus
-                  />
+                  {{  show_field(form.date, class='form-control')}}
                 </div>
 
                 <div class="mb-3">
-                  <label for="food">Alimento:</label>
-                  <input
-                    type="text"
-                    name="food"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
-                    placeholder="Introduzca el alimento"
-                    required
-                  />
+                  {{  show_field(form.time, class='form-control')}}
                 </div>
 
                 <div class="mb-3">
-                  <label for="glucose_value">Nivel de glucosa:</label>
-                  <input
-                    type="text"
-                    name="glucose_value"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
-                    placeholder="Introduzca su nivel de glucosa"
-                  />
+                  {{  show_field(form.food, class='form-control')}}
+                </div>
+
+                <div class="mb-3">
+                  {{  show_field(form.glucose_value, class='form-control')}}
                 </div>
 
                 <button class="btn btn-primary">Guardar</button>

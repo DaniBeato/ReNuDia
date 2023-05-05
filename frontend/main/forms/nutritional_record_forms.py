@@ -1,24 +1,26 @@
 # - *- coding: utf- 8 - *-
 from flask_wtf import FlaskForm #Importa funciones de formulario
-from wtforms import PasswordField, SubmitField, StringField, SelectField, HiddenField, DateField, BooleanField, IntegerField #Importa campos
-from wtforms.fields.html5 import EmailField, DateField #Importa campos HTML
+from wtforms import PasswordField, SubmitField, StringField, SelectField, HiddenField, IntegerField  # Importa campos
+from wtforms.fields import EmailField,DateField, TimeField #Importa campos HTML
 from wtforms import validators #Importa validaciones
+from flask_login import current_user
 
 class NutritionalRecordForm(FlaskForm):
 
-    date = DateField('Fecha')
+    date = DateField('Introduzca la fecha:')
 
-    food_id = IntegerField('Id de alimento')
+    time = TimeField('Introduzca la hora:')
+
+    food = SelectField('Introduzca el alimento ingerido:',  coerce=int, validate_choice=False)
+
+    glucose_value = IntegerField('Introduzca su valor glucémico:',
+                            [
+                                validators.data_required(message="Debe introducir su valor de glucosa"),
+                                # validators.Required(message="Formato inválido")
+                            ])
 
 
-    user_id = IntegerField('Id de usuario')
-
-
-    glucose_value = IntegerField('Cantidad de glucosa')
 
 
 
-
-
-    submit = SubmitField('Guardar Información')
-
+    submit = SubmitField('register')
