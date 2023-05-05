@@ -17,18 +17,17 @@
                     <input
                         type="text"
                         name="name"
-                        class="form-control rounded-0 bg-dark border-0 text-white"
+                        class="form-control rounded-2  border-2"
                         placeholder="Nombre"
                         autofocus
                     />
-                    {{  show_field(form.name, class='form-control')}}
                 </div>
                 <div class="mb-3">
                   <label for="surname">Inserte su apellido:</label>
                   <input
                     type="text"
                     name="surname"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    class="form-control rounded-2  border-2"
                     placeholder="Apellido"
                     required
                   />
@@ -38,7 +37,7 @@
                   <input
                     type="text"
                     name="age"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    class="form-control rounded-2  border-2"
                     placeholder="24"
                   />
                 </div>
@@ -47,7 +46,7 @@
                   <input
                     type="text"
                     name="weight"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    class="form-control rounded-2  border-2"
                     placeholder="80"
                   />
                 </div>
@@ -56,25 +55,24 @@
                   <input
                     type="text"
                     name="height"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    class="form-control rounded-2  border-2"
                     placeholder="180"
                   />
                 </div>
                 <div class="mb-3">
                   <label for="gender">Inserte su sexo:</label>
-                  <input
-                    type="text"
-                    name="gender"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
-                    placeholder="masculino"
-                  />
+                  <select class="form-select" aria-label="Default select example" name="gender">
+                      <option selected>Seleccione una opción</option>
+                      <option value="masculino">Masculino</option>
+                      <option value="femenino">Femenino</option>
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="diabetes_type">Inserte su tipo de diabetes:</label>
                   <input
                     type="text"
                     name="diabetes_type"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    class="form-control rounded-2  border-2"
                     placeholder="1"
                   />
                 </div>
@@ -83,7 +81,7 @@
                   <input
                     type="text"
                     name="email"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    class="form-control rounded-2  border-2"
                     placeholder="santiago@gmail.com"
                   />
                   </div>
@@ -92,7 +90,7 @@
                   <input
                     type="text"
                     name="password"
-                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    class="form-control rounded-2  border-2"
                     placeholder="**********"
                   />
                 </div>

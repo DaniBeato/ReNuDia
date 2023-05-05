@@ -37,9 +37,11 @@ def main_view():
             headers=headers,
             data=json.dumps(data)
         )
+    data = {"user_id": current_user.id}
     r = requests.get(
-    current_app.config["API_URL"] + '/nutritional_records',
-    headers=headers,
+        current_app.config["API_URL"] + '/nutritional_records',
+        headers=headers,
+        data=json.dumps(data)
     )
     users = json.loads(r.text)
     print(users)
@@ -50,7 +52,7 @@ def main_view():
 @main.route('/register', methods=['POST', "GET"])
 def register():
     form = RegisterForm()  # Instanciar formulario
-    #form.rol.choices = ["cliente", "proveedor"]
+    form.gender.choices = ["masculino", "femenino"]
     if form.validate_on_submit():
         data = {}
         data["name"] = form.name.data

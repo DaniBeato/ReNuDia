@@ -40,11 +40,7 @@ class RegisterForm(FlaskForm):
                                 # validators.Required(message="Formato inválido")
                             ])
 
-    gender = StringField('gender',
-                       [
-                           validators.data_required(message="Debe introducir su sexo"),
-                           # validators.Required(message="Formato inválido")
-                       ])
+    gender = SelectField('gender')
 
 
     diabetes_type = StringField('diabetes_type',
@@ -71,7 +67,7 @@ class RegisterForm(FlaskForm):
     #rol = SelectField('Rol')
 
 
-    submit = SubmitField('register')
+    submit = SubmitField('Registrarse')
 
 
 class LoginForm(FlaskForm):
