@@ -13,7 +13,7 @@ user_schema = UserSchema()
 
 class UsersResource(Resource):
 
-    #@login_required
+    @login_required
     def get(self):
         users = user_repository.get_all()
         return user_schema.dump(users, many = True)

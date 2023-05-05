@@ -47,7 +47,14 @@ def register():
             print(error)
             db.session.rollback()
             return str(error), 409
-        return user_schema.dump(user), 201
+        access_token = create_access_token(identity=user)
+        data = {
+            str('id'): user.id,
+            'email': user.email,
+            'access_token': access_token,
+            'rol': user.rol
+        }
+        return data, 201
 
 
 

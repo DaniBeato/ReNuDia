@@ -24,6 +24,14 @@ class UserModel(db.Model):
     nutritional_records = db.relationship("NutritionalRecordModel",
                                          primaryjoin="NutritionalRecordModel.user_id==UserModel.id",
                                          back_populates="users", cascade="all, delete-orphan")
+    nutritionist = db.relationship("NutritionistDiabeticModel", back_populates="user_nutritionist",
+                                   primaryjoin="UserModel.id==NutritionistDiabeticModel.nutritionist_id",
+                                   cascade="all, delete-orphan")
+    diabetic = db.relationship("NutritionistDiabeticModel", back_populates="user_diabetic",
+                               primaryjoin="UserModel.id==NutritionistDiabeticModel.diabetic_id",
+                               cascade="all, delete-orphan")
+
+
 
     def __repr__(self):
         return "<Id: %r, Email: %r, Password: %r, Name: %r, Surname: %r, Age: %r, Weight: %r, Height: %r, Gender: %r, "\

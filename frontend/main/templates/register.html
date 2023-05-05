@@ -2,45 +2,100 @@
 
 
 {% block title %}
-  Flask SQLAlchemy CRUD | Home
+  Register
 {% endblock %}
 
 {% block body %}
     <!-- FORM -->
-    <div class="row p-5" >
-        <form action="/new" method="POST" class="card bg-black text-light">
+    <div class="row" >
+        <form action="{{ url_for('main.register') }}" method="POST" class="card bg-black text-light">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="card-body p-5">
-                <h1 class="h5 mb-4">Add Contact</h1>
+                <h1 class="h5 mb-4">Regístrese</h1>
                 <div class="mb-3">
-                    <label for="fullname">Write your fullname:</label>
+                    <label for="name">Inserte su nombre:</label>
                     <input
                         type="text"
-                        name="fullname"
+                        name="name"
                         class="form-control rounded-0 bg-dark border-0 text-white"
-                        placeholder="Write fullname"
+                        placeholder="Nombre"
                         autofocus
                     />
                 </div>
                 <div class="mb-3">
-                  <label for="email">Write your email:</label>
+                  <label for="surname">Inserte su apellido:</label>
                   <input
                     type="text"
-                    name="email"
+                    name="surname"
                     class="form-control rounded-0 bg-dark border-0 text-white"
-                    placeholder="Write your email"
+                    placeholder="Apellido"
                     required
                   />
                 </div>
                 <div class="mb-3">
-                  <label for="phone">Write your phone:</label>
+                  <label for="age">Inserte su edad:</label>
                   <input
                     type="text"
-                    name="phone"
+                    name="age"
                     class="form-control rounded-0 bg-dark border-0 text-white"
-                    placeholder="+12123123123"
+                    placeholder="24"
                   />
                 </div>
-                <button class="btn btn-primary">Save</button>
+                <div class="mb-3">
+                  <label for="weight">Inserte su peso:</label>
+                  <input
+                    type="text"
+                    name="weight"
+                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    placeholder="80"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="height">Inserte su altura:</label>
+                  <input
+                    type="text"
+                    name="height"
+                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    placeholder="180"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="gender">Inserte su sexo:</label>
+                  <input
+                    type="text"
+                    name="gender"
+                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    placeholder="hombre"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="diabetes_type">Inserte su tipo de diabetes:</label>
+                  <input
+                    type="text"
+                    name="diabetes_type"
+                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    placeholder="1"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="email">Inserte su email:</label>
+                  <input
+                    type="text"
+                    name="email"
+                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    placeholder="santiago@gmail.com"
+                  />
+                  </div>
+                <div class="mb-3">
+                  <label for="password">Inserte su contraseña:</label>
+                  <input
+                    type="text"
+                    name="password"
+                    class="form-control rounded-0 bg-dark border-0 text-white"
+                    placeholder="**********"
+                  />
+                </div>
+                <button class="btn btn-primary">Registrarse</button>
             </div>
         </form>
     </div>

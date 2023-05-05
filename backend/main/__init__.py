@@ -44,6 +44,9 @@ def create_app():
     from main.resources import message_resource
     api.add_resource(message_resource.MessagesResource, '/messages')
     api.add_resource(message_resource.MessageResource, '/messages/<id>')
+    from main.resources import nutritionist_diabetic_resource
+    api.add_resource(nutritionist_diabetic_resource.NutritionistDiabeticsResource, '/nutritionist_diabetics')
+    api.add_resource(nutritionist_diabetic_resource.NutritionistDiabeticResource, '/nutritionist_diabetics/<id>')
     api.init_app(app)
 
 
