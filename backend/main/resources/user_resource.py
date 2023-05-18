@@ -18,7 +18,7 @@ class UsersResource(Resource):
         users = user_repository.get_all()
         return user_schema.dump(users, many = True)
 
-
+    @login_required
     def post(self):
         session = db.session.session_factory()
         user = user_schema.load(request.get_json(), session=session)

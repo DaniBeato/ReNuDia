@@ -15,15 +15,21 @@ class NutritionalRecordsResource(Resource):
 
     @login_required
     def get(self):
-        nutritional_records = nutritional_record_repository.get_all()
-        return nutritional_record_schema.dump(nutritional_records, many = True)
+        filters = request.data
+        if filters:
+            for key, value in request.get_json().items():
+                if key == 'user_id':
+                    nutritional_records = nutritional_record_repository.get_by_user_id(int(value))
+        else:
+            nutritional_records = nutritional_record_repository.get_all()
+        return nutritional_record_schema.dump(nutritional_records, many = True), 200
 
     @login_required
     def post(self):
         session = db.session.session_factory()
         nutritional_record = nutritional_record_schema.load(request.get_json(), session=session)
         nutritional_record_repository.create(nutritional_record)
-        return nutritional_record_schema.dump(nutritional_record), "Registro Nutricional Creado"
+        return nutritional_record_schema.dump(nutritional_record), 200
 
 
 

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-black">
   <div class="container">
-    <a class="navbar-brand" href="/">ReNuDia</a>
+    <a class="navbar-brand" href="{{ url_for('main.main_view') }}">ReNuDia</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -12,12 +12,14 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/about">About</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+    {% if current_user.is_authenticated %}
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="navbar-brand" href="{{ url_for('main.user', id=current_user.id) }}">Ver Perfil</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    {% endif %}
 </nav>

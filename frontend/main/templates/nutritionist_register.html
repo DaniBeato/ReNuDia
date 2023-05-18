@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+  Register
+{% endblock %}
+
+{% block body %}
+    <!-- FORM -->
+    <div class="row" >
+        <form action="{{ url_for('main.nutritionist_register') }}" method="POST" class="card bg-black text-light">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="card-body p-5">
+                <h1 class="h5 mb-4">Nuevo Nutricionista</h1>
+                <div class="mb-3">
+                    <label for="name">Inserte su nombre:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control rounded-2  border-2"
+                        placeholder="Nombre"
+                        autofocus
+                    />
+                </div>
+                <div class="mb-3">
+                  <label for="surname">Inserte su apellido:</label>
+                  <input
+                    type="text"
+                    name="surname"
+                    class="form-control rounded-2  border-2"
+                    placeholder="Apellido"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="age">Inserte su edad:</label>
+                  <input
+                    type="text"
+                    name="age"
+                    class="form-control rounded-2  border-2"
+                    placeholder="24"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="gender">Inserte su sexo:</label>
+                  <select class="form-select" aria-label="Default select example" name="gender">
+                      <option selected>Seleccione una opción</option>
+                      <option value="masculino">Masculino</option>
+                      <option value="femenino">Femenino</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="doctor_license">Inserte su número de matrícula:</label>
+                  <input
+                    type="text"
+                    name="doctor_license"
+                    class="form-control rounded-2  border-2"
+                    placeholder="1"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="email">Inserte su email:</label>
+                  <input
+                    type="text"
+                    name="email"
+                    class="form-control rounded-2  border-2"
+                    placeholder="santiago@gmail.com"
+                  />
+                  </div>
+                <div class="mb-3">
+                  <label for="password">Inserte su contraseña:</label>
+                  <input
+                    type="text"
+                    name="password"
+                    class="form-control rounded-2  border-2"
+                    placeholder="**********"
+                  />
+                </div>
+                <button class="btn btn-primary">Registrarse</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

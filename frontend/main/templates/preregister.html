@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+  Register
+{% endblock %}
+
+{% block body %}
+    <!-- FORM -->
+    <div class="row" >
+        <form action="{{ url_for('main.preregister') }}" method="POST" class="card bg-black text-light">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="card-body p-5">
+                <div class="mb-3">
+                  <label for="rol">Seleccione como desea registrarse:</label>
+                  <select class="form-select" aria-label="Default select example" name="rol">
+                      <option selected>Seleccione una opción</option>
+                      <option value="diabetico">Paciente Diabético</option>
+                      <option value="nutricionista">Médico Nutricionista</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary">Registrarse</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

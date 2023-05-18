@@ -28,8 +28,8 @@ def create_app():
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(os.getenv('JWT_ACCESS_TOKEN_EXPIRES'))
     jwt.init_app(app)
 
-    #from main.auth import auth
-    #app.register_blueprint(auth.auth.auth)
+    from main.auth import auth
+    app.register_blueprint(auth.auth)
 
     # Importamos los endpoints(resources)
     from main.resources import user_resource
@@ -44,6 +44,9 @@ def create_app():
     from main.resources import message_resource
     api.add_resource(message_resource.MessagesResource, '/messages')
     api.add_resource(message_resource.MessageResource, '/messages/<id>')
+    from main.resources import nutritionist_diabetic_resource
+    api.add_resource(nutritionist_diabetic_resource.NutritionistDiabeticsResource, '/nutritionist_diabetics')
+    api.add_resource(nutritionist_diabetic_resource.NutritionistDiabeticResource, '/nutritionist_diabetics/<id>')
     api.init_app(app)
 
 

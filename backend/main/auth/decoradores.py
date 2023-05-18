@@ -90,7 +90,7 @@ def login_required(fn):
             if claims['rol'] == "nutricionista":
                 return fn(*args, **kwargs)
             else:
-                if claims['rol'] == "nutricionista":
+                if claims['rol'] == "diabetico":
                     return fn(*args, **kwargs)
                 return 'Debe iniciar sesión para poder acceder', 404
     return wrapper

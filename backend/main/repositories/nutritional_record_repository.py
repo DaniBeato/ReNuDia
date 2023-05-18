@@ -13,6 +13,9 @@ class NutritionalRecordRepository:
         return self.nutritional_records.query.get(id)
 
 
+    def get_by_user_id(self, user_id):
+        return self.nutritional_records.query.filter_by(user_id = user_id).all()
+
     def create(self, nutritional_record):
         db.session.add(nutritional_record)
         db.session.commit()

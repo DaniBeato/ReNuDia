@@ -24,6 +24,14 @@ class UserModel(db.Model):
     nutritional_records = db.relationship("NutritionalRecordModel",
                                          primaryjoin="NutritionalRecordModel.user_id==UserModel.id",
                                          back_populates="users", cascade="all, delete-orphan")
+    nutritionist = db.relationship("NutritionistDiabeticModel", back_populates="user_nutritionist",
+                                   primaryjoin="UserModel.id==NutritionistDiabeticModel.nutritionist_id",
+                                   cascade="all, delete-orphan")
+    diabetic = db.relationship("NutritionistDiabeticModel", back_populates="user_diabetic",
+                               primaryjoin="UserModel.id==NutritionistDiabeticModel.diabetic_id",
+                               cascade="all, delete-orphan")
+
+
 
     def __repr__(self):
         return "<Id: %r, Email: %r, Password: %r, Name: %r, Surname: %r, Age: %r, Weight: %r, Height: %r, Gender: %r, "\
@@ -34,14 +42,3 @@ class UserModel(db.Model):
 
 
 
-    @property
-    def plain_password(self):
-        raise AttributeError('La contraseña no se puede mostrar')
-
-    @plain_password.setter
-    def plain_password(self, password):
-        self.password = generate_password_hash(password)
-
-
-    def validate_password(self, password):
-        return check_password_hash(self.password, password)
