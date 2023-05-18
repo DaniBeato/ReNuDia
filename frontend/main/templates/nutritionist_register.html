@@ -8,10 +8,10 @@
 {% block body %}
     <!-- FORM -->
     <div class="row" >
-        <form action="{{ url_for('main.register') }}" method="POST" class="card bg-black text-light">
+        <form action="{{ url_for('main.nutritionist_register') }}" method="POST" class="card bg-black text-light">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="card-body p-5">
-                <h1 class="h5 mb-4">Regístrese</h1>
+                <h1 class="h5 mb-4">Nuevo Nutricionista</h1>
                 <div class="mb-3">
                     <label for="name">Inserte su nombre:</label>
                     <input
@@ -42,24 +42,6 @@
                   />
                 </div>
                 <div class="mb-3">
-                  <label for="weight">Inserte su peso:</label>
-                  <input
-                    type="text"
-                    name="weight"
-                    class="form-control rounded-2  border-2"
-                    placeholder="80"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="height">Inserte su altura:</label>
-                  <input
-                    type="text"
-                    name="height"
-                    class="form-control rounded-2  border-2"
-                    placeholder="180"
-                  />
-                </div>
-                <div class="mb-3">
                   <label for="gender">Inserte su sexo:</label>
                   <select class="form-select" aria-label="Default select example" name="gender">
                       <option selected>Seleccione una opción</option>
@@ -68,10 +50,10 @@
                   </select>
                 </div>
                 <div class="mb-3">
-                  <label for="diabetes_type">Inserte su tipo de diabetes:</label>
+                  <label for="doctor_license">Inserte su número de matrícula:</label>
                   <input
                     type="text"
-                    name="diabetes_type"
+                    name="doctor_license"
                     class="form-control rounded-2  border-2"
                     placeholder="1"
                   />
