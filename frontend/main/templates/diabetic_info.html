@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% import 'macros/table.html' as table %}
+
+
+{% block title %}
+  Main Diabetic
+{% endblock %}
+
+{% from 'macros/form.html' import show_field, show_submit %}
+{% block body %}
+
+    <!-- FORM -->
+    <div class="row">
+
+        <!-- MESSAGE -->
+        {% include 'partials/_message.html' %}
+
+        <div class="col-md-5 p-5">
+
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <div class="card mb-1 bg-black text-white p-3 ">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <h1 class="card mb-5 bg-black text-white">Paciente Diabético</h1>
+                            </div>
+                            <div class="d-flex align-items-start flex-column p-5">
+                                <h5 class="card-text">Nombre: {{ user["name"] }}</h5>
+                                <h5 class="card-text">Apellido: {{ user["surname"] }}</h5>
+                                <h5 class="card-text">Email: {{ user["email"] }}</h5>
+                                <h5 class="card-text">Altura: {{ user["height"] }}</h5>
+                                <h5 class="card-text">Peso: {{ user["weight"] }}</h5>
+                                <h5 class="card-text">Typo de diabetes: {{ user["diabetes_type"] }}</h5>
+                                <h5 class="card-text">Sexo: {{ user["gender"] }}</h5>
+                                <h5 class="card-text">Edad: {{ user["age"] }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- nutritional records -->
+        <div class="col-md-7 p-5">
+            {{ table.show_rows(objects) }}
+        </div>
+    </div>
+
+
+{% endblock %}

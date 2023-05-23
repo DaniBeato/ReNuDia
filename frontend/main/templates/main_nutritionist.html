@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+  Main Nutritionist
+{% endblock %}
+
+
+{% block body %}
+
+    {% include 'partials/_message.html' %}
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-7 ">
+            <div class="d-flex justify-content-center">
+                <h1 class="card mb-1 bg-black text-white">Pacientes Sin Atención</h1>
+            </div>
+            {% for user in users %}
+            <div class="card mb-1 bg-black text-white mt-5">
+              <div class="card-body py-2 px-5">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title h2">{{ user["name"] }}  &nbsp;{{ user["surname"] }}</h3>
+                  <div>
+                    <a href="{{ url_for('main.add_diabetic_to_nutritionist', diabetic_id=user["id"]) }}" class="btn btn-primary btn-xl rounded-0 p-2 mt-1">Añadir a mis pacientes</a>
+                  </div>
+                </div>
+                <h4 class="card-text">Sexo: {{ user["gender"] }}</h4>
+                <h4 class="card-text">Edad: {{ user["age"] }} años</h4>
+                <h4 class="card-text">Altura: {{ user["height"] }} cm</h4>
+                <h4 class="card-text">Peso: {{ user["weight"] }} kg</h4>
+                <h4 class="card-text">Tipo de diabetes: {{ user["diabetes_type"] }}</h4>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

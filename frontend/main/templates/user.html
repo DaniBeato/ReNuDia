@@ -10,16 +10,25 @@
             <div class="card mb-1 bg-black text-white p-5 ">
                 <div class="card-body py-5 px-5 p-5">
                     <div class="d-flex align-items-start flex-column">
-                        <h1 class="card-title h1">Perfil</h1>
-                        <h5 class="card-text">Nombre: {{ user["name"] }}</h5>
-                        <h5 class="card-text">Apellido: {{ user["surname"] }}</h5>
-                        <h5 class="card-text">Email: {{ user["email"] }}</h5>
-                        <h5 class="card-text">Altura: {{ user["height"] }}</h5>
-                        <h5 class="card-text">Peso: {{ user["weight"] }}</h5>
-                        <h5 class="card-text">Rol: {{ user["rol"] }}</h5>
-                        <h5 class="card-text">Typo de diabetes: {{ user["diabetes_type"] }}</h5>
-                        <h5 class="card-text">Sexo: {{ user["gender"] }}</h5>
-                        <h5 class="card-text">Edad: {{ user["age"] }}</h5>
+                        {% if user["rol"] == "diabetico" %}
+                            <h1 class="card-title h1">Paciente Diabético</h1>
+                            <h5 class="card-text">Nombre: {{ user["name"] }}</h5>
+                            <h5 class="card-text">Apellido: {{ user["surname"] }}</h5>
+                            <h5 class="card-text">Email: {{ user["email"] }}</h5>
+                            <h5 class="card-text">Altura: {{ user["height"] }}</h5>
+                            <h5 class="card-text">Peso: {{ user["weight"] }}</h5>
+                            <h5 class="card-text">Typo de diabetes: {{ user["diabetes_type"] }}</h5>
+                            <h5 class="card-text">Sexo: {{ user["gender"] }}</h5>
+                            <h5 class="card-text">Edad: {{ user["age"] }}</h5>
+                        {% else %}
+                            <h1 class="card-title h1">Médico Nutricionista</h1>
+                            <h5 class="card-text">Nombre: {{ user["name"] }}</h5>
+                            <h5 class="card-text">Apellido: {{ user["surname"] }}</h5>
+                            <h5 class="card-text">Email: {{ user["email"] }}</h5>
+                            <h5 class="card-text">Sexo: {{ user["gender"] }}</h5>
+                            <h5 class="card-text">Edad: {{ user["age"] }}</h5>
+                            <h5 class="card-text">Matrícula: {{ user["doctor_license"] }}</h5>
+                        {% endif %}
                     </div>
                 </div>
             </div>

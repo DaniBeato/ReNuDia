@@ -18,6 +18,11 @@ class UserRepository:
     def get_by_email(self, email):
         return self.users.query.filter_by(email=email).first()
 
+    def get_diabetics_without_nutritionist(self):
+        return self.users.query.filter_by(rol="diabetico", diabetic=None).all()
+
+
+
     def create(self, user):
         db.session.add(user)
         db.session.commit()

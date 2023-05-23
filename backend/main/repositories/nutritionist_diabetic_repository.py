@@ -12,6 +12,13 @@ class NutritionistDiabeticRepository:
     def get_by_id(self, id):
         return self.nutritional_diabetics.query.get(id)
 
+    def get_by_nutritionist_and_diabetic_id(self, nutritionist_id, diabetic_id):
+        return self.nutritional_diabetics.query.filter_by(
+            nutritionist_id = nutritionist_id, diabetic_id = diabetic_id).first()
+
+    def get_by_nutritionist_id(self, nutritionist_id):
+        return self.nutritional_diabetics.query.filter_by(nutritionist_id = nutritionist_id).all()
+
 
 
     def create(self, nutritional_diabetic):

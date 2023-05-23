@@ -10,5 +10,7 @@ class NutritionistDiabeticSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         include_fk = True
 
+
+
     user_nutritionist = fields.Nested((UserSchema), exclude = ('nutritionist',))
     user_diabetic = fields.Nested((UserSchema), exclude = ('diabetic',))

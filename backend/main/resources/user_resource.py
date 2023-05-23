@@ -15,7 +15,13 @@ class UsersResource(Resource):
 
     @login_required
     def get(self):
-        users = user_repository.get_all()
+        filters = request.data
+        if filters:
+            for key, value in request.get_json().items():
+                if key == 'without_nutritionist' and value == True:
+                    users = user_repository.get_diabetics_without_nutritionist()
+        else:
+            users = user_repository.get_all()
         return user_schema.dump(users, many = True)
 
     @login_required
