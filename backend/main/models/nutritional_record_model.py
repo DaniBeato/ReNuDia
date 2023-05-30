@@ -3,8 +3,10 @@ from .. import db
 class NutritionalRecordModel(db.Model):
     __tablename__ = 'nutritional records'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    diabetic_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    time = db.Column(db.Time, nullable=False)
+    amount_food = db.Column(db.String(64), nullable=False)
     food_id = db.Column(db.Integer, db.ForeignKey('foods.id'), nullable=False)
     glucose_value = db.Column(db.Integer, nullable=False)
     users = db.relationship("UserModel", back_populates="nutritional_records", uselist=False, single_parent=True)

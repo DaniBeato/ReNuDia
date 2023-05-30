@@ -4,7 +4,7 @@
 
 
 {% block title %}
-  Foods
+  Update Food
 {% endblock %}
 
 {% from 'macros/form.html' import show_field, show_submit %}
@@ -19,10 +19,10 @@
         <div class="col-md-5 p-5">
 
             <!-- FORM -->
-            <form action="{{ url_for('main.foods') }}" method="POST" class="card bg-black text-light">
+            <form action="{{ url_for('main.update_food', food_id=actual_food["id"]) }}" method="POST" class="card bg-black text-light">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="card-body p-4">
-                <h1 class="h5 mb-4">Añadir alimento</h1>
+                <h1 class="h5 mb-4">Editar alimento</h1>
 
                 <div class="mb-3">
                     <label for="name">Inserte el nombre del alimento:</label>
@@ -30,7 +30,8 @@
                         type="text"
                         name="name"
                         class="form-control rounded-2  border-2"
-                        placeholder="Tomate"
+                        placeholder="santiago@gmail.com"
+                        value="{{ food.name }}"
                     />
                 </div>
 
@@ -41,9 +42,9 @@
                         name="amount_sugar"
                         class="form-control rounded-2  border-2"
                         placeholder="6"
+                        value="{{ food.amount_sugar }}"
                     />
                 </div>
-
 
                 <button class="btn btn-primary">Guardar</button>
               </div>

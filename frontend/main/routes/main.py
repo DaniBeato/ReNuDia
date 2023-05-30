@@ -2,10 +2,12 @@ from flask import Blueprint, render_template, current_app, redirect, url_for, ma
 import requests, json
 from ..forms.auth_forms import PreRegisterForm, NutritionistRegisterForm, DiabeticRegisterForm, LoginForm
 from ..forms.nutritional_record_forms import NutritionalRecordForm
+from ..forms.food_forms import FoodForm
 from flask_login import login_user
 from .auth import User
 from datetime import datetime, date, time
 from flask_login import current_user
+
 main = Blueprint('main', __name__, url_prefix='/')
 
 @main.route('/' , methods=['POST', "GET"])
@@ -67,20 +69,7 @@ def main_diabetic():
     foods.insert(0, (0, ''))
     form.food.choices = foods
 
-    if form.validate_on_submit():
-        data = {}
-        #datetime.strptime(bolson_json.get('fecha'), '%Y-%m-%dT%H:%M:%S')
-        data["date"] = date.strftime(form.date.data, '%Y-%m-%d') + "T" + time.strftime(form.time.data, '%H:%M:%S')
-        data["glucose_value"] = form.glucose_value.data
-        data["food_id"] = form.food.data
-        data["user_id"] = current_user.id
-        print(data)
-        r = requests.post(
-            current_app.config["API_URL"] + '/nutritional_records',
-            headers=headers,
-            data=json.dumps(data)
-        )
-    data = {"user_id": current_user.id}
+    data = {"diabetic_id": current_user.id}
     r = requests.get(
         current_app.config["API_URL"] + '/nutritional_records',
         headers=headers,
@@ -88,7 +77,106 @@ def main_diabetic():
     )
     nutritional_records = json.loads(r.text)
     print(nutritional_records)
-    return render_template('/main_diabetic.html', objects=nutritional_records, form=form)#,url=url, ths_list=ths_list, url_actual=url_actual)
+
+    if form.validate_on_submit():
+        data = {}
+        #datetime.strptime(bolson_json.get('fecha'), '%Y-%m-%dT%H:%M:%S')
+        data["date"] = date.strftime(form.date.data, '%Y-%m-%d')
+        data["time"] = time.strftime(form.time.data, '%H:%M:%S')
+        data["glucose_value"] = form.glucose_value.data
+        data["amount_food"] = form.amount_food.data
+        data["food_id"] = form.food.data
+        data["diabetic_id"] = current_user.id
+        print(data)
+        r = requests.post(
+            current_app.config["API_URL"] + '/nutritional_records',
+            headers=headers,
+            data=json.dumps(data)
+        )
+        if r.status_code == 200:
+            flash('Se ha guardado el registro nutricional', 'success')
+        else:
+            flash('No se pudo guardar el registro nutricional', 'danger')
+    return render_template('/main_diabetic.html', nutritional_records=nutritional_records, form=form)#,url=url, ths_list=ths_list, url_actual=url_actual)
+
+
+
+@main.route('/update_nutritional_record/<int:nutritional_record_id>' , methods=['POST', "GET"])
+def update_nutritional_record(nutritional_record_id):
+    form = NutritionalRecordForm()
+    auth = request.cookies['access_token']
+    headers = {
+        'content-type': "application/json",
+        'authorization': "Bearer {}".format(auth)
+    }
+
+    r = requests.get(
+        current_app.config["API_URL"] + '/nutritional_records/{}'.format(nutritional_record_id),
+        headers=headers,
+    )
+    actual_nutritional_record = json.loads(r.text)
+    print(r.text)
+
+    data = {"diabetic_id": current_user.id}
+    r = requests.get(
+        current_app.config["API_URL"] + '/nutritional_records',
+        headers=headers,
+        data=json.dumps(data)
+    )
+    nutritional_records = json.loads(r.text)
+
+    r = requests.get(
+        current_app.config["API_URL"] + '/foods',
+        headers=headers)
+    print(r.text)
+    foods = [(item['id'], (item['name'], item['amount_sugar'])) for item in json.loads(r.text)]
+    foods.insert(0, (0, ''))
+    form.food.choices = foods
+
+    if form.validate_on_submit():
+        data = {}
+        data["date"] = date.strftime(form.date.data, '%Y-%m-%d')
+        data["time"] = time.strftime(form.time.data, '%H:%M:%S')
+        data["glucose_value"] = form.glucose_value.data
+        data["amount_food"] = form.amount_food.data
+        data["food_id"] = form.food.data
+        data["diabetic_id"] = current_user.id
+        print(data)
+        r = requests.put(
+            current_app.config["API_URL"] + '/nutritional_records/{}'.format(nutritional_record_id),
+            headers=headers,
+            data=json.dumps(data)
+        )
+        if r.status_code == 200:
+            flash('Se ha modificado el registro nutricional', 'success')
+            return redirect(url_for('main.main_diabetic'))
+        else:
+            flash('No se pudo modificar el registro nutricional', 'danger')
+            return redirect(url_for('main.main_diabetic'))
+    return render_template('/update_nutritional_record.html', nutritional_records=nutritional_records , actual_nutritional_record=actual_nutritional_record, form=form)
+
+
+
+
+@main.route('/delete_nutritional_record/<int:nutritional_record_id>' , methods=["DELETE", "GET"])
+def delete_nutritional_record(nutritional_record_id):
+    auth = request.cookies['access_token']
+    headers = {
+        'content-type': "application/json",
+        'authorization': "Bearer {}".format(auth)
+    }
+    r = requests.delete(
+        current_app.config["API_URL"] + '/nutritional_records/{}'.format(nutritional_record_id),
+        headers=headers,
+    )
+    print(r.text)
+    if r.status_code == 200:
+        flash('Se ha eliminado el registro nutricional', 'success')
+        return redirect(url_for('main.main_diabetic'))
+    else:
+        flash('No se pudo eliminar el registro nutricional', 'danger')
+        return redirect(url_for('main.main_diabetic'))
+
 
 
 
@@ -108,9 +196,9 @@ def main_nutritionist():
         data=json.dumps(data)
     )
     print(r.text)
-    users = json.loads(r.text)
-    print(users)
-    return render_template('/main_nutritionist.html', users=users)#,url=url, ths_list=ths_list, url_actual=url_actual)
+    diabetics_without_nutritionists = json.loads(r.text)
+    print(diabetics_without_nutritionists)
+    return render_template('/main_nutritionist.html', diabetics_without_nutritionists=diabetics_without_nutritionists)
 
 
 
@@ -144,7 +232,7 @@ def diabetic_register():
         data["diabetes_type"] = form.diabetes_type.data
         data["email"] = form.email.data
         data["password"] = form.password.data
-        data["rol"] = "diabetico"
+        data["rol"] = "diabetic"
         headers = {
             'content-type': "application/json",
             'authorization': "Bearer"}
@@ -183,7 +271,7 @@ def nutritionist_register():
         data["doctor_license"] = form.doctor_license.data
         data["email"] = form.email.data
         data["password"] = form.password.data
-        data["rol"] = "nutricionista"
+        data["rol"] = "nutritionist"
         headers = {
             'content-type': "application/json",
             'authorization': "Bearer"}
@@ -229,9 +317,9 @@ def login():
             user_data = json.loads(r.text)
             user = User(id=user_data.get("id"), email=user_data.get("email"), rol=user_data.get("rol"))
             login_user(user)
-            if user_data["rol"] == "diabetico":
+            if user_data["rol"] == "diabetic":
                 req = make_response(redirect(url_for('main.main_diabetic')))
-            elif user_data["rol"] == "nutricionista":
+            elif user_data["rol"] == "nutritionist":
                 req = make_response(redirect(url_for('main.main_nutritionist')))
             req.set_cookie('access_token', user_data.get("access_token"), httponly=True)
             flash('Inicio de sesión correcto', 'success')
@@ -301,7 +389,7 @@ def add_diabetic_to_nutritionist(diabetic_id):
     data = {"diabetic_id": diabetic_id, "nutritionist_id": current_user.id}
 
     r = requests.post(
-        current_app.config["API_URL"] + '/nutritionist_diabetics',
+        current_app.config["API_URL"] + '/inscriptions',
         headers=headers,
         data=json.dumps(data)
     )
@@ -313,8 +401,8 @@ def add_diabetic_to_nutritionist(diabetic_id):
         return redirect(url_for('main.main_nutritionist'))
 
 
-@main.route('/diabetic_of_nutritionist_list', methods=['POST', "GET"])
-def diabetics_of_nutritionist_list():
+@main.route('/inscriptions_of_nutritionist_list', methods=['POST', "GET"])
+def inscriptions_of_nutritionist_list():
     auth = request.cookies['access_token']
     headers = {
         'content-type': "application/json",
@@ -323,15 +411,15 @@ def diabetics_of_nutritionist_list():
 
     data = {"nutritionist_id": current_user.id}
     r = requests.get(
-        current_app.config["API_URL"] + '/nutritionist_diabetics',
+        current_app.config["API_URL"] + '/inscriptions',
         headers=headers,
         data=json.dumps(data)
     )
     print(r.text)
-    users = json.loads(r.text)
-    print(users)
-    return render_template('/diabetics_of_nutritionist_list.html',
-                           users=users)  # ,url=url, ths_list=ths_list, url_actual=url_actual)
+    inscriptions_of_nutritionist = json.loads(r.text)
+    print(inscriptions_of_nutritionist)
+    return render_template('/inscriptions_of_nutritionist_list.html',
+                           inscriptions_of_nutritionist=inscriptions_of_nutritionist)  # ,url=url, ths_list=ths_list, url_actual=url_actual)
 
 
 
@@ -347,22 +435,56 @@ def diabetic_info(diabetic_id):
         current_app.config["API_URL"] + '/users/{}'.format(diabetic_id),
         headers=headers,
     )
-    user = json.loads(r.text)
+    diabetic = json.loads(r.text)
     print(user)
-    data = {"user_id": diabetic_id}
+    data = {"diabetic_id": diabetic_id}
     r = requests.get(
         current_app.config["API_URL"] + '/nutritional_records',
         headers=headers,
         data=json.dumps(data)
     )
     nutritional_records = json.loads(r.text)
-    return render_template('/diabetic_info.html', objects=nutritional_records, user=user)
+    return render_template('/diabetic_info.html', nutritional_records=nutritional_records, diabetic=diabetic)
 
 
 
-@main.route('/main_diabetic' , methods=['POST', "GET"])
-def main_diabetic():
-    form = NutritionalRecordForm()
+@main.route('/foods' , methods=['POST', "GET"])
+def foods():
+    form = FoodForm()
+    auth = request.cookies['access_token']
+    headers = {
+        'content-type': "application/json",
+        'authorization': "Bearer {}".format(auth)
+    }
+    if form.validate_on_submit():
+        data = {}
+        #datetime.strptime(bolson_json.get('fecha'), '%Y-%m-%dT%H:%M:%S')
+        data["name"] = form.name.data
+        data["amount_sugar"] = form.amount_sugar.data
+        print(data)
+        r = requests.post(
+            current_app.config["API_URL"] + '/foods',
+            headers=headers,
+            data=json.dumps(data)
+        )
+        if r.status_code == 200:
+            flash('Se ha guardado el alimento', 'success')
+        else:
+            flash('No se pudo guardar el alimento', 'danger')
+
+    r = requests.get(
+        current_app.config["API_URL"] + '/foods',
+        headers=headers,
+    )
+    foods = json.loads(r.text)
+    print(foods)
+    return render_template('/foods.html', foods=foods, form=form)#,url=url, ths_list=ths_list, url_actual=url_actual)
+
+
+
+@main.route('/update_food/<int:food_id>' , methods=['POST', "GET"])
+def update_food(food_id):
+    form = FoodForm()
     auth = request.cookies['access_token']
     headers = {
         'content-type': "application/json",
@@ -370,32 +492,56 @@ def main_diabetic():
     }
 
     r = requests.get(
-        current_app.config["API_URL"] + '/foods',
-        headers=headers)
+        current_app.config["API_URL"] + '/foods/{}'.format(food_id),
+        headers=headers,
+    )
+    actual_food = json.loads(r.text)
     print(r.text)
-    foods = [(item['id'], (item['name'], item['amount_sugar'])) for item in json.loads(r.text)]
-    foods.insert(0, (0, ''))
-    form.food.choices = foods
+
+    r = requests.get(
+        current_app.config["API_URL"] + '/foods',
+        headers=headers,
+    )
+    foods = json.loads(r.text)
 
     if form.validate_on_submit():
         data = {}
         #datetime.strptime(bolson_json.get('fecha'), '%Y-%m-%dT%H:%M:%S')
-        data["date"] = date.strftime(form.date.data, '%Y-%m-%d') + "T" + time.strftime(form.time.data, '%H:%M:%S')
-        data["glucose_value"] = form.glucose_value.data
-        data["food_id"] = form.food.data
-        data["user_id"] = current_user.id
+        data["name"] = form.name.data
+        data["amount_sugar"] = form.amount_sugar.data
         print(data)
-        r = requests.post(
-            current_app.config["API_URL"] + '/nutritional_records',
+        r = requests.put(
+            current_app.config["API_URL"] + '/foods/{}'.format(food_id),
             headers=headers,
             data=json.dumps(data)
         )
-    data = {"user_id": current_user.id}
-    r = requests.get(
-        current_app.config["API_URL"] + '/nutritional_records',
+        if r.status_code == 200:
+            flash('Se ha modificado el alimento', 'success')
+            return redirect(url_for('main.foods'))
+        else:
+            flash('No se pudo modificar el alimento', 'danger')
+            return redirect(url_for('main.foods'))
+    return render_template('/update_food.html', actual_food=actual_food, foods=foods, form=form)#,url=url, ths_list=ths_list, url_actual=url_actual)
+
+
+
+
+@main.route('/delete_food/<int:food_id>' , methods=["DELETE", "GET"])
+def delete_food(food_id):
+    auth = request.cookies['access_token']
+    headers = {
+        'content-type': "application/json",
+        'authorization': "Bearer {}".format(auth)
+    }
+    r = requests.delete(
+        current_app.config["API_URL"] + '/foods/{}'.format(food_id),
         headers=headers,
-        data=json.dumps(data)
     )
-    nutritional_records = json.loads(r.text)
-    print(nutritional_records)
-    return render_template('/main_diabetic.html', objects=nutritional_records, form=form)#,url=url, ths_list=ths_list, url_actual=url_actual)
+    print(r.text)
+    if r.status_code == 200:
+        flash('Se ha eliminado el alimento', 'success')
+        return redirect(url_for('main.foods'))
+    else:
+        flash('No se pudo eliminar el alimento', 'danger')
+        return redirect(url_for('main.foods'))
+

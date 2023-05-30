@@ -18,7 +18,7 @@ class NutritionalRecordsResource(Resource):
         filters = request.data
         if filters:
             for key, value in request.get_json().items():
-                if key == 'user_id':
+                if key == 'diabetic_id':
                     nutritional_records = nutritional_record_repository.get_by_user_id(int(value))
         else:
             nutritional_records = nutritional_record_repository.get_all()

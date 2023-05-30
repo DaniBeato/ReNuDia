@@ -4,7 +4,7 @@
 
 
 {% block title %}
-  Main Diabetic
+  Diabetic
 {% endblock %}
 
 {% from 'macros/form.html' import show_field, show_submit %}
@@ -26,14 +26,14 @@
                                 <h1 class="card mb-5 bg-black text-white">Paciente Diabético</h1>
                             </div>
                             <div class="d-flex align-items-start flex-column p-5">
-                                <h5 class="card-text">Nombre: {{ user["name"] }}</h5>
-                                <h5 class="card-text">Apellido: {{ user["surname"] }}</h5>
-                                <h5 class="card-text">Email: {{ user["email"] }}</h5>
-                                <h5 class="card-text">Altura: {{ user["height"] }}</h5>
-                                <h5 class="card-text">Peso: {{ user["weight"] }}</h5>
-                                <h5 class="card-text">Typo de diabetes: {{ user["diabetes_type"] }}</h5>
-                                <h5 class="card-text">Sexo: {{ user["gender"] }}</h5>
-                                <h5 class="card-text">Edad: {{ user["age"] }}</h5>
+                                <h5 class="card-text">Nombre: {{ diabetic["name"] }}</h5>
+                                <h5 class="card-text">Apellido: {{ diabetic["surname"] }}</h5>
+                                <h5 class="card-text">Email: {{ diabetic["email"] }}</h5>
+                                <h5 class="card-text">Altura: {{ diabetic["height"] }}</h5>
+                                <h5 class="card-text">Peso: {{ diabetic["weight"] }}</h5>
+                                <h5 class="card-text">Typo de diabetes: {{ diabetic["diabetes_type"] }}</h5>
+                                <h5 class="card-text">Sexo: {{ diabetic["gender"] }}</h5>
+                                <h5 class="card-text">Edad: {{ diabetic["age"] }}</h5>
                             </div>
                         </div>
                     </div>
@@ -44,9 +44,40 @@
 
         <!-- nutritional records -->
         <div class="col-md-7 p-5">
-            {{ table.show_rows(objects) }}
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-dark table-striped">
+                        <tr>
+                            <th> Fecha </th>
+                            <th> Hora </th>
+                            <th> Alimento </th>
+                            <th> Cantidad  del alimento</th>
+                            <th> Valor de glucosa en sangre </th>
+                            <th>  </th>
+                        </tr>
+                        <tr>
+                            {% for nutritional_record in nutritional_records %}
+                                <th>{{ nutritional_record["date"] }}</th>
+                                <th>{{ nutritional_record["time"] }}</th>
+                                <th>{{ nutritional_record["foods"]["name"] }}</th>
+                                <th>{{ nutritional_record["amunt_food"] }}</th>
+                                <th>{{ nutritional_record["glucose_value"] }}</th>
+                            <td>
+                                <div class="row justify-content-md-center">
+                                    <div class="col-md-auto">
+                                        <a type="button" href="{{ url_for('main.update_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-primary me-md-3">Editar</a>
+                                        <a type="button" href="{{ url_for('main.delete_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-danger me-md-3">Eliminar</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+
 
 
 {% endblock %}

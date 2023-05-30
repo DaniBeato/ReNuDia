@@ -19,8 +19,11 @@ class NutritionalRecordForm(FlaskForm):
                                 # validators.Required(message="Formato inválido")
                             ])
 
-
-
+    amount_food = StringField('Introduzca la cantidad del alimento que ha ingerido:',
+                            [
+                                validators.data_required(message="Debe introducir la cantidad del alimento que ha ingerido"),
+                                # validators.Required(message="Formato inválido")
+                            ])
 
 
     submit = SubmitField('register')

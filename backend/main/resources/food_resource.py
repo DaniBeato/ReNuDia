@@ -21,7 +21,7 @@ class FoodsResource(Resource):
         session = db.session.session_factory()
         food = food_schema.load(request.get_json(), session=session)
         food_repository.create(food)
-        return food_schema.dump(food), "Comida Creada"
+        return food_schema.dump(food), 200
 
 
 class FoodResource(Resource):
