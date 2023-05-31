@@ -66,7 +66,7 @@ def main_diabetic():
         headers=headers)
     print(r.text)
     foods = [(item['id'], (item['name'], item['amount_sugar'])) for item in json.loads(r.text)]
-    foods.insert(0, (0, ''))
+    foods.insert(0, (0, 'Selecione una opción'))
     form.food.choices = foods
 
     data = {"diabetic_id": current_user.id}
@@ -95,6 +95,7 @@ def main_diabetic():
         )
         if r.status_code == 200:
             flash('Se ha guardado el registro nutricional', 'success')
+            return redirect(url_for('main.main_diabetic'))
         else:
             flash('No se pudo guardar el registro nutricional', 'danger')
     return render_template('/main_diabetic.html', nutritional_records=nutritional_records, form=form)#,url=url, ths_list=ths_list, url_actual=url_actual)
@@ -129,9 +130,16 @@ def update_nutritional_record(nutritional_record_id):
         current_app.config["API_URL"] + '/foods',
         headers=headers)
     print(r.text)
+
     foods = [(item['id'], (item['name'], item['amount_sugar'])) for item in json.loads(r.text)]
-    foods.insert(0, (0, ''))
+    foods.remove((actual_nutritional_record['food']['id'], (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['amount_sugar'])))
+    foods.insert(0, (actual_nutritional_record['food']['id'], (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['amount_sugar'])))
     form.food.choices = foods
+
+    actual_nutritional_record['time'] = datetime.strptime(actual_nutritional_record['time'], '%H:%M:%S')
+    actual_nutritional_record['time'] = actual_nutritional_record['time'].strftime('%H:%M')
+    print(actual_nutritional_record['time'])
+
 
     if form.validate_on_submit():
         data = {}
@@ -152,7 +160,6 @@ def update_nutritional_record(nutritional_record_id):
             return redirect(url_for('main.main_diabetic'))
         else:
             flash('No se pudo modificar el registro nutricional', 'danger')
-            return redirect(url_for('main.main_diabetic'))
     return render_template('/update_nutritional_record.html', nutritional_records=nutritional_records , actual_nutritional_record=actual_nutritional_record, form=form)
 
 
@@ -228,7 +235,10 @@ def diabetic_register():
         data["age"] = form.age.data
         data["weight"] = form.weight.data
         data["height"] = form.height.data
-        data["gender"] = form.gender.data
+        if form.gender.data == "masculino":
+            data["gender"] = "male"
+        else:
+            data["gender"] = "female"
         data["diabetes_type"] = form.diabetes_type.data
         data["email"] = form.email.data
         data["password"] = form.password.data
@@ -267,8 +277,12 @@ def nutritionist_register():
         data["name"] = form.name.data
         data["surname"] = form.surname.data
         data["age"] = form.age.data
-        data["gender"] = form.gender.data
+        if form.gender.data == "masculino":
+            data["gender"] = "male"
+        else:
+            data["gender"] = "female"
         data["doctor_license"] = form.doctor_license.data
+        data["id_card"] = form.id_card.data
         data["email"] = form.email.data
         data["password"] = form.password.data
         data["rol"] = "nutritionist"
@@ -285,7 +299,7 @@ def nutritionist_register():
             user_data = json.loads(r.text)
             user = User(id=user_data.get("id"), email=user_data.get("email"), rol=user_data.get("rol"))
             login_user(user)
-            req = make_response(redirect(url_for('main.main_diabetic')))
+            req = make_response(redirect(url_for('main.main_nutritionist')))
             req.set_cookie('access_token', user_data.get("access_token"), httponly=True)
             flash('Registro e inicio de sesión correctos', 'success')
             return req

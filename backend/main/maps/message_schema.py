@@ -25,8 +25,8 @@ class MessageSchema(SQLAlchemyAutoSchema):
         include_fk = True
 
 
-    senders = fields.Nested((UserSchema), exclude =('nutritional_records', 'messages_sent', 'messages_recept',))
-    receptors = fields.Nested((UserSchema), exclude =('nutritional_records', 'messages_sent', 'messages_recept',))
+    sender = fields.Nested((UserSchema), exclude =('nutritional_records', 'messages_sent', 'messages_recept',))
+    receptor = fields.Nested((UserSchema), exclude =('nutritional_records', 'messages_sent', 'messages_recept',))
 
 
 

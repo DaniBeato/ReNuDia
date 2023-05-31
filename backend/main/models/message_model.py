@@ -9,8 +9,8 @@ class MessageModel(db.Model):
     time = db.Column(db.Time, nullable=False)
     message = db.Column(db.String(9999), nullable=False)
     read = db.Column(db.Boolean, nullable=False)
-    senders = db.relationship("UserModel", foreign_keys=[sender_id], back_populates="messages_sent", uselist=False, single_parent=True)
-    receptors = db.relationship("UserModel", foreign_keys=[receptor_id], back_populates="messages_recept", uselist=False, single_parent=True)
+    sender = db.relationship("UserModel", foreign_keys=[sender_id], back_populates="messages_sent", uselist=False, single_parent=True)
+    receptor = db.relationship("UserModel", foreign_keys=[receptor_id], back_populates="messages_recept", uselist=False, single_parent=True)
 
 
     def __repr__(self):

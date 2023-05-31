@@ -51,7 +51,7 @@
                             <th> Fecha </th>
                             <th> Hora </th>
                             <th> Alimento </th>
-                            <th> Cantidad  del alimento</th>
+                            <th> Cantidad </th>
                             <th> Valor de glucosa en sangre </th>
                             <th>  </th>
                         </tr>
@@ -59,8 +59,8 @@
                             {% for nutritional_record in nutritional_records %}
                                 <th>{{ nutritional_record["date"] }}</th>
                                 <th>{{ nutritional_record["time"] }}</th>
-                                <th>{{ nutritional_record["foods"]["name"] }}</th>
-                                <th>{{ nutritional_record["amunt_food"] }}</th>
+                                <th>{{ nutritional_record["food"]["name"] }}</th>
+                                <th>{{ nutritional_record["amount_food"] }}</th>
                                 <th>{{ nutritional_record["glucose_value"] }}</th>
                             <td>
                                 <div class="row justify-content-md-center">

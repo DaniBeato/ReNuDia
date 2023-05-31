@@ -8,6 +8,7 @@
 {% block body %}
     <!-- FORM -->
     <div class="row" >
+        {% include 'partials/_message.html' %}
         <form action="{{ url_for('main.diabetic_register') }}" method="POST" class="card bg-black text-light">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="card-body p-5">

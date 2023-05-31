@@ -8,6 +8,7 @@
 {% block body %}
     <!-- FORM -->
     <div class="row" >
+        {% include 'partials/_message.html' %}
         <form action="{{ url_for('main.nutritionist_register') }}" method="POST" class="card bg-black text-light">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="card-body p-5">
@@ -50,12 +51,21 @@
                   </select>
                 </div>
                 <div class="mb-3">
-                  <label for="doctor_license">Inserte su número de matrícula:</label>
+                  <label for="doctor_license">Inserte su número de certificado:</label>
                   <input
                     type="text"
                     name="doctor_license"
                     class="form-control rounded-2  border-2"
-                    placeholder="1"
+                    placeholder="9056"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="id_card">Inserte su número de documento:</label>
+                  <input
+                    type="text"
+                    name="id_card"
+                    class="form-control rounded-2  border-2"
+                    placeholder="42469132"
                   />
                 </div>
                 <div class="mb-3">

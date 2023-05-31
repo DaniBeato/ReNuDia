@@ -19,7 +19,7 @@ class UserRepository:
         return self.users.query.filter_by(email=email).first()
 
     def get_diabetics_without_nutritionist(self):
-        return self.users.query.filter_by(rol="diabetico", diabetic=None).all()
+        return self.users.query.filter_by(rol="diabetic", inscription_diabetic=None).all()
 
 
 

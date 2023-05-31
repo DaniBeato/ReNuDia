@@ -12,5 +12,5 @@ class InscriptionSchema(SQLAlchemyAutoSchema):
 
 
 
-    user_nutritionist = fields.Nested((UserSchema), exclude = ('inscription_nutritionist',))
+    user_nutritionist = fields.Nested((UserSchema), exclude = ('inscriptions_nutritionist',))
     user_diabetic = fields.Nested((UserSchema), exclude = ('inscription_diabetic',))

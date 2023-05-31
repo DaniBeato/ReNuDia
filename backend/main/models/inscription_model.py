@@ -7,7 +7,7 @@ class InscriptionModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nutritionist_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     diabetic_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
-    user_nutritionist = db.relationship("UserModel", foreign_keys=[nutritionist_id], back_populates="inscription_nutritionist", uselist=False,
+    user_nutritionist = db.relationship("UserModel", foreign_keys=[nutritionist_id], back_populates="inscriptions_nutritionist", uselist=False,
                                    single_parent=True)
     user_diabetic = db.relationship("UserModel", foreign_keys=[diabetic_id], back_populates="inscription_diabetic", uselist=False, single_parent=True)
 

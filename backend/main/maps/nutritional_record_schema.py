@@ -28,6 +28,6 @@ class NutritionalRecordSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         include_fk = True
 
-    users = fields.Nested((UserSchema), exclude = ('nutritional_records', 'messages_sent', 'messages_recept',))
-    foods = fields.Nested((FoodSchema), exclude = ('nutritional_records',))
+    user = fields.Nested((UserSchema), exclude = ('nutritional_records', 'messages_sent', 'messages_recept',))
+    food = fields.Nested((FoodSchema), exclude = ('nutritional_records',))
 

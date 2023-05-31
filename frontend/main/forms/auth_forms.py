@@ -106,9 +106,15 @@ class NutritionistRegisterForm(FlaskForm):
 
         doctor_license = StringField('doctor_license',
                                     [
-                                        validators.data_required(message="Debe introducir su matrícula"),
+                                        validators.data_required(message="Debe introducir su número de certificado"),
                                         # validators.Required(message="Formato inválido")
                                     ])
+
+        id_card = StringField('id_card',
+                                     [
+                                         validators.data_required(message="Debe introducir su número de documento"),
+                                         # validators.Required(message="Formato inválido")
+                                     ])
 
         email = EmailField('email',
                            [

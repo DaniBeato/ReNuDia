@@ -25,23 +25,23 @@
                 <h1 class="h5 mb-4">Modificar registro nutricional</h1>
 
                 <div class="mb-3">
-                  {{  show_field(form.date, class='form-control')}}
+                  {{  show_field(form.date, class='form-control', value=actual_nutritional_record["date"])}}
                 </div>
 
                 <div class="mb-3">
-                  {{  show_field(form.time, class='form-control')}}
+                  {{  show_field(form.time, class='form-control', value=actual_nutritional_record["time"])}}
                 </div>
 
                 <div class="mb-3">
-                  {{  show_field(form.food, class='form-control')}}
+                  {{  show_field(form.food, class='form-control', value=actual_nutritional_record["food"]["name"])}}
                 </div>
 
                 <div class="mb-3">
-                  {{  show_field(form.amount_food, class='form-control')}}
+                  {{  show_field(form.amount_food, class='form-control', value=actual_nutritional_record["amount_food"])}}
                 </div>
 
                 <div class="mb-3">
-                  {{  show_field(form.glucose_value, class='form-control', value=nutritional_record["glucose_value"])}}
+                  {{  show_field(form.glucose_value, class='form-control', value=actual_nutritional_record["glucose_value"])}}
                 </div>
 
                 <button class="btn btn-primary">Guardar</button>
@@ -58,7 +58,7 @@
                             <th> Fecha </th>
                             <th> Hora </th>
                             <th> Alimento </th>
-                            <th> Cantidad  del alimento</th>
+                            <th> Cantidad </th>
                             <th> Valor de glucosa en sangre </th>
                             <th>  </th>
                         </tr>
@@ -66,8 +66,8 @@
                             {% for nutritional_record in nutritional_records %}
                                 <th>{{ nutritional_record["date"] }}</th>
                                 <th>{{ nutritional_record["time"] }}</th>
-                                <th>{{ nutritional_record["foods"]["name"] }}</th>
-                                <th>{{ nutritional_record["amunt_food"] }}</th>
+                                <th>{{ nutritional_record["food"]["name"] }}</th>
+                                <th>{{ nutritional_record["amount_food"] }}</th>
                                 <th>{{ nutritional_record["glucose_value"] }}</th>
                             <td>
                                 <div class="row justify-content-md-center">

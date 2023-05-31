@@ -7,7 +7,7 @@ class FoodModel(db.Model):
     amount_sugar = db.Column(db.Integer, nullable=False)
     nutritional_records = db.relationship("NutritionalRecordModel",
                                          primaryjoin="NutritionalRecordModel.food_id==FoodModel.id",
-                                         back_populates="foods", cascade="all, delete-orphan")
+                                         back_populates="food", cascade="all, delete-orphan")
 
 
 
