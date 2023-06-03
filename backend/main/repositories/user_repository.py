@@ -1,5 +1,6 @@
 from .. import db
 from .. models.user_model import UserModel
+from werkzeug.security import generate_password_hash
 
 
 class UserRepository:
@@ -31,7 +32,10 @@ class UserRepository:
     def update(self, id, data):
         user = self.users.query.get(id)
         for key, value in data:
-            setattr(user, key, value)
+            if key == 'password':
+                setattr(user, key, generate_password_hash(value))
+            else:
+                setattr(user, key, value)
         db.session.add(user)
         db.session.commit()
         return user

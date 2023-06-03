@@ -6,6 +6,7 @@
 
 {% block body %}
     <div class="row justify-content-md-center">
+       {% include 'partials/_message.html' %}
         <div class="col-md-auto">
             <div class="card mb-1 bg-black text-white p-5 ">
                 <div class="card-body py-5 px-5 p-5">
@@ -18,16 +19,33 @@
                             <h5 class="card-text">Altura: {{ user["height"] }}</h5>
                             <h5 class="card-text">Peso: {{ user["weight"] }}</h5>
                             <h5 class="card-text">Typo de diabetes: {{ user["diabetes_type"] }}</h5>
-                            <h5 class="card-text">Sexo: {{ user["gender"] }}</h5>
+                            {% if user["gender"] == "male" %}
+                                <h5 class="card-text">Sexo: Masculino</h5>
+                            {% else %}
+                                <h5 class="card-text">Sexo: Femenino</h5>
+                            {% endif %}
                             <h5 class="card-text">Edad: {{ user["age"] }}</h5>
+                            <div class="col-md-auto">
+                                <a type="button" href="{{ url_for('main.update_diabetic', id=user["id"]) }}" class="btn btn-primary me-md-3 mt-3">Editar mis datos</a>
+                                <a type="button" href="{{ url_for('main.delete_user', id=user["id"]) }}" class="btn btn-danger me-md-3 mt-3">Eliminar cuenta</a>
+                            </div>
                         {% else %}
                             <h1 class="card-title h1">Médico Nutricionista</h1>
                             <h5 class="card-text">Nombre: {{ user["name"] }}</h5>
                             <h5 class="card-text">Apellido: {{ user["surname"] }}</h5>
                             <h5 class="card-text">Email: {{ user["email"] }}</h5>
-                            <h5 class="card-text">Sexo: {{ user["gender"] }}</h5>
+                            {% if user["gender"] == "male" %}
+                                <h5 class="card-text">Sexo: Masculino</h5>
+                            {% else %}
+                                <h5 class="card-text">Sexo: Femenino</h5>
+                            {% endif %}
                             <h5 class="card-text">Edad: {{ user["age"] }}</h5>
                             <h5 class="card-text">Matrícula: {{ user["doctor_license"] }}</h5>
+                            <h5 class="card-text">DNI: {{ user["id_card"] }}</h5>
+                            <div class="col-md-auto">
+                                <a type="button" href="{{ url_for('main.update_nutritionist', id=user["id"]) }}" class="btn btn-primary me-md-3">Editar mis datos</a>
+                                <a type="button" href="{{ url_for('main.delete_user', id=user["id"]) }}" class="btn btn-danger me-md-3">Eliminar cuenta</a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

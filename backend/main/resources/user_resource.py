@@ -45,9 +45,9 @@ class UserResource(Resource):
     @login_required
     def put(self, id):
         user = user_repository.update(id, request.get_json().items())
-        return user_schema.dump(user)
+        return user_schema.dump(user), 200
 
     @login_required
     def delete(self, id):
         user_repository.delete(id)
-        return 'Usuario Eliminado'
+        return 'Usuario Eliminado', 200

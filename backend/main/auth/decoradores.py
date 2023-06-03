@@ -1,7 +1,7 @@
-from .. import jwt
+from .. import jwt, db
 from flask_jwt_extended import verify_jwt_in_request, get_jwt
 from functools import wraps
-
+from  .. models.token_disabled_model import TokenDisabledModel
 
 
 def nutritionist_required(fn):
@@ -108,6 +108,20 @@ def add_claims_to_access_token(user):
         'email': user.email
     }
     return claims
+
+
+def verificacion_token_revocado(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        verify_jwt_in_request()
+        claims = get_jwt()
+        jti = claims["jti"]
+        token = db.session.query(TokenDisabledModel.id).filter_by(jti = jti).scalar()
+        if token:
+            return 'Este token es inválido porque el usuario ha cerrado sesión', 404
+        else:
+            return fn(*args, **kwargs)
+    return wrapper
 
 
 

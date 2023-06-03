@@ -14,16 +14,24 @@ class MessagesResource(Resource):
 
     @login_required
     def get(self):
+        messages = message_repository.create_session()
         filters = request.data
         if filters:
-            for key, value in request.get_json().items():
-                if key == 'sender_id':
-                    messages_sent = message_repository.get_by_sender_id(int(value))
-                if key == 'receptor_id':
-                    messages_recept = message_repository.get_by_receptor_id(int(value))
-            messages = messages_sent + messages_recept
-            messages = message_repository.sort_by_id(messages)
-            print(messages)
+            if 'all_chat' and 'sender_id' and 'receptor_id' in request.get_json():
+                print('entre arriba')
+                for key, value in request.get_json().items():
+                    if key == 'sender_id':
+                        sender_id = int(value)
+                    if key == 'receptor_id':
+                        receptor_id = int(value)
+                messages = message_repository.get_all_chat(sender_id, receptor_id)
+            else:
+                print('entre abajo')
+                for key, value in request.get_json().items():
+                    if key == 'sender_id':
+                        messages = message_repository.get_by_sender_id(int(value))
+                    if key == 'receptor_id':
+                        messages = message_repository.get_by_receptor_id(int(value))
         else:
             messages = message_repository.get_all()
         return message_schema.dump(messages, many = True)

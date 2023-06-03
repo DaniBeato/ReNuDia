@@ -16,7 +16,7 @@
         <!-- MESSAGE -->
         {% include 'partials/_message.html' %}
 
-        <div class="col-md-5 p-5">
+        <div class="col-md-5 p-3">
 
             <div class="row justify-content-md-center">
                 <div class="col-md-auto">
@@ -43,7 +43,7 @@
         </div>
 
         <!-- nutritional records -->
-        <div class="col-md-7 p-5">
+        <div class="col-md-7 p-3">
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered table-dark table-striped">
@@ -52,8 +52,7 @@
                             <th> Hora </th>
                             <th> Alimento </th>
                             <th> Cantidad </th>
-                            <th> Valor de glucosa en sangre </th>
-                            <th>  </th>
+                            <th> Glucosa en sangre </th>
                         </tr>
                         <tr>
                             {% for nutritional_record in nutritional_records %}
@@ -62,14 +61,6 @@
                                 <th>{{ nutritional_record["food"]["name"] }}</th>
                                 <th>{{ nutritional_record["amount_food"] }}</th>
                                 <th>{{ nutritional_record["glucose_value"] }}</th>
-                            <td>
-                                <div class="row justify-content-md-center">
-                                    <div class="col-md-auto">
-                                        <a type="button" href="{{ url_for('main.update_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-primary me-md-3">Editar</a>
-                                        <a type="button" href="{{ url_for('main.delete_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-danger me-md-3">Eliminar</a>
-                                    </div>
-                                </div>
-                            </td>
                         </tr>
                             {% endfor %}
                     </table>

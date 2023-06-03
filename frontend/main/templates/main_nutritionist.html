@@ -24,11 +24,16 @@
                     <a href="{{ url_for('main.add_diabetic_to_nutritionist', diabetic_id=diabetics_without_nutritionist["id"]) }}" class="btn btn-primary btn-xl rounded-0 p-2 mt-1">Añadir a mis pacientes</a>
                   </div>
                 </div>
-                <h4 class="card-text">Sexo: {{ diabetics_without_nutritionist["gender"] }}</h4>
+                {% if diabetics_without_nutritionist["gender"] == "male" %}
+                    <h5 class="card-text">Sexo: Masculino</h5>
+                {% else %}
+                    <h5 class="card-text">Sexo: Femenino</h5>
+                {% endif %}
                 <h4 class="card-text">Edad: {{ diabetics_without_nutritionist["age"] }} años</h4>
                 <h4 class="card-text">Altura: {{ diabetics_without_nutritionist["height"] }} cm</h4>
                 <h4 class="card-text">Peso: {{ diabetics_without_nutritionist["weight"] }} kg</h4>
                 <h4 class="card-text">Tipo de diabetes: {{ diabetics_without_nutritionist["diabetes_type"] }}</h4>
+                <h4 class="card-text">Email: {{ diabetics_without_nutritionist["email"] }}</h4>
               </div>
             </div>
           {% endfor %}

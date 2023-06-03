@@ -18,17 +18,28 @@
           {% for inscription_of_nutritionist in inscriptions_of_nutritionist %}
             <div class="card mb-1 bg-black text-white mt-5">
               <div class="card-body py-2 px-5">
-                <div class="d-flex justify-content-between">
-                  <h3 class="card-title h2">{{ inscription_of_nutritionist["user_diabetic"]["name"] }}  &nbsp;{{ inscription_of_nutritionist["user_diabetic"]["surname"] }}</h3>
-                  <div>
-                    <a href="{{ url_for('main.diabetic_info', diabetic_id=inscription_of_nutritionist["user_diabetic"]["id"]) }}" class="btn btn-primary btn-xl rounded-0 p-2 mt-1">Ver Registros Nutricionales</a>
+                  <div class="row">
+                      <div class="col-md-8">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title h2">{{ inscription_of_nutritionist["user_diabetic"]["name"] }}  &nbsp;{{ inscription_of_nutritionist["user_diabetic"]["surname"] }}</h3>
+                        </div>
+                        {% if inscription_of_nutritionist["user_diabetic"]["gender"] == "male" %}
+                             <h4 class="card-text">Sexo: Masculino</h4>
+                        {% else %}
+                            <h4 class="card-text">Sexo: Femenino</h4>
+                        {% endif %}
+                        <h4 class="card-text">Edad: {{ inscription_of_nutritionist["user_diabetic"]["age"] }} años</h4>
+                        <h4 class="card-text">Altura: {{ inscription_of_nutritionist["user_diabetic"]["height"] }} cm</h4>
+                        <h4 class="card-text">Peso: {{ inscription_of_nutritionist["user_diabetic"]["weight"] }} kg</h4>
+                        <h4 class="card-text">Tipo de diabetes: {{ inscription_of_nutritionist["user_diabetic"]["diabetes_type"] }}</h4>
+                      </div>
+                      <div class="col-md-4">
+                          <div class="row justify-content-md-center">
+                            <a href="{{ url_for('main.diabetic_info', diabetic_id=inscription_of_nutritionist["user_diabetic"]["id"]) }}" class="btn btn-primary btn-xl rounded-3 p-2 mt-4">Ver registros nutricionales</a>
+                            <a href="{{ url_for('main.delete_inscriptions_of_nutritionist', inscription_id=inscription_of_nutritionist["id"]) }}" class="btn btn-danger btn-xl rounded-3 p-2 mt-4">Eliminar de mis pacientes</a>
+                          </div>
+                      </div>
                   </div>
-                </div>
-                <h4 class="card-text">Sexo: {{ inscription_of_nutritionist["user_diabetic"]["gender"] }}</h4>
-                <h4 class="card-text">Edad: {{ inscription_of_nutritionist["user_diabetic"]["age"] }} años</h4>
-                <h4 class="card-text">Altura: {{ inscription_of_nutritionist["user_diabetic"]["height"] }} cm</h4>
-                <h4 class="card-text">Peso: {{ inscription_of_nutritionist["user_diabetic"]["weight"] }} kg</h4>
-                <h4 class="card-text">Tipo de diabetes: {{ inscription_of_nutritionist["user_diabetic"]["diabetes_type"] }}</h4>
               </div>
             </div>
           {% endfor %}
