@@ -394,14 +394,25 @@ def messages_nutritionist():
         headers=headers,
         data=json.dumps(data)
     )
+    inscriptions = json.loads(r.text)
+
+
     diabetics = [(item['diabetic_id'], (item['user_diabetic']['name'], item['user_diabetic']['surname']))
-                  for item in json.loads(r.text)]
+                  for item in inscriptions]
     diabetics.insert(0, (0, ('Selecione el paciente', '')))
+    if filter.diabetic.data != None:
+        for item in inscriptions:
+            if item['diabetic_id'] == filter.diabetic.data:
+                diabetic = (item['diabetic_id'], (item['user_diabetic']['name'], item['user_diabetic']['surname']))
+                diabetics.remove(diabetic)
+                diabetics.insert(0, diabetic)
+                break
     filter.diabetic.choices = diabetics
+
 
     if filter.validate():
         print('fui validado')
-        if filter.diabetic.data != None:
+        if filter.diabetic.data != None and filter.diabetic.data != 0:
             data = {}
             data["sender_id"] = filter.diabetic.data
             data["receptor_id"] = current_user.id
