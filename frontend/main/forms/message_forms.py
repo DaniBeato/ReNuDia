@@ -7,14 +7,16 @@ from flask_login import current_user
 
 class MessageForm(FlaskForm):
 
-    message = StringField('Escriba su mensaje aquí:')
+
+    message = StringField('Escriba su mensaje aquí:', [
+                           validators.data_required(message="Debe introducir un mensaje"),
+                           # validators.Required(message="Formato inválido")
+                       ])
 
 
-    submit = SubmitField('Enviar')
+    submit = SubmitField('Enviar Mensaje')
 
 
-class MessageFilter(FlaskForm):
-    diabetic = SelectField('Paciente Diabético',[validators.optional()], coerce=int)
-    submit = SubmitField("Ver mensajes")
+
 
 

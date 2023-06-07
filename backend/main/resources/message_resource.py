@@ -17,7 +17,7 @@ class MessagesResource(Resource):
         messages = message_repository.create_session()
         filters = request.data
         if filters:
-            if 'all_chat' and 'sender_id' and 'receptor_id' in request.get_json():
+            if 'all_chat' in request.get_json() and 'sender_id' in request.get_json() and 'receptor_id' in request.get_json():
                 print('entre arriba')
                 for key, value in request.get_json().items():
                     if key == 'sender_id':
@@ -41,7 +41,7 @@ class MessagesResource(Resource):
         session = db.session.session_factory()
         message = message_schema.load(request.get_json(), session=session)
         message_repository.create(message)
-        return message_schema.dump(message), "Mensaje Creado"
+        return message_schema.dump(message), 200
 
 
 

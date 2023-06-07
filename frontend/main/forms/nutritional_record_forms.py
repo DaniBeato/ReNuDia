@@ -27,4 +27,4 @@ class NutritionalRecordForm(FlaskForm):
                             ])
 
 
-    submit = SubmitField('register')
+    submit = SubmitField('Guardar')

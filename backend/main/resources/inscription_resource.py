@@ -20,6 +20,8 @@ class InscriptionsResource(Resource):
             for key, value in request.get_json().items():
                 if key == 'nutritionist_id':
                     inscriptions = inscription_repository.get_by_nutritionist_id(value)
+                if key == 'diabetic_id':
+                    inscriptions = inscription_repository.get_by_diabetic_id(value)
         else:
             inscriptions = inscription_repository.get_all()
         return inscription_schema.dump(inscriptions, many = True)

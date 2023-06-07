@@ -19,6 +19,9 @@ class InscriptionRepository:
     def get_by_nutritionist_id(self, nutritionist_id):
         return self.inscriptions.query.filter_by(nutritionist_id = nutritionist_id).all()
 
+    def get_by_diabetic_id(self, diabetic_id):
+        return self.inscriptions.query.filter_by(diabetic_id = diabetic_id).all()
+
 
 
     def create(self, inscription):

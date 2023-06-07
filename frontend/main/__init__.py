@@ -16,7 +16,7 @@ def create_app():
     app.config['API_URL'] = os.getenv('API_URL')
     app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
     csrf.init_app(app)
-    csrf.init_app(app)
+    app.config["WTF_CSRF_TIME_LIMIT"] = None
     login_manager.init_app(app)
     from main.routes import main
     app.register_blueprint(routes.main.main)
