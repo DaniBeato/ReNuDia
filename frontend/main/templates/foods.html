@@ -35,10 +35,10 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="amount_sugar">Inserte la cantidad de glucosa del alimento:</label>
+                    <label for="carbohydrates">Inserte la cantidad de carbohidratos del alimento:</label>
                     <input
                         type="text"
-                        name="amount_sugar"
+                        name="carbohydrates"
                         class="form-control rounded-2  border-2"
                         placeholder="6"
                     />
@@ -58,13 +58,13 @@
                     <table class="table table-bordered table-dark table-striped">
                         <tr>
                             <th> Nombre </th>
-                            <th> Cantidad de glucosa </th>
+                            <th> Cantidad de carbohidratos </th>
                             <th>  </th>
                         </tr>
                         <tr>
                             {% for food in foods %}
                                 <th>{{ food["name"] }}</th>
-                                <th>{{ food["amount_sugar"] }}</th>
+                                <th>{{ food["carbohydrates"] }}</th>
                             <td>
                                 <div class="row justify-content-md-center">
                                     <div class="col-md-auto">

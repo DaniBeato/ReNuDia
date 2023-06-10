@@ -68,7 +68,7 @@ def main_diabetic():
         current_app.config["API_URL"] + '/foods',
         headers=headers)
     print(r.text)
-    foods = [(item['id'], (item['name'], item['amount_sugar'])) for item in json.loads(r.text)]
+    foods = [(item['id'], (item['name'], item['carbohydrates'] + " gramos de carbohidratos")) for item in json.loads(r.text)]
     foods.insert(0, (0, 'Selecione una opción'))
     form.food.choices = foods
 
@@ -135,11 +135,11 @@ def update_nutritional_record(nutritional_record_id):
         headers=headers)
     print(r.text)
 
-    foods = [(item['id'], (item['name'], item['amount_sugar'])) for item in json.loads(r.text)]
+    foods = [(item['id'], (item['name'], item['carbohydrates'] + " gramos de carbohidratos")) for item in json.loads(r.text)]
     foods.remove((actual_nutritional_record['food']['id'],
-                  (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['amount_sugar'])))
+                  (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['carbohydrates'])))
     foods.insert(0, (actual_nutritional_record['food']['id'],
-                     (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['amount_sugar'])))
+                     (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['carbohydrates'])))
     form.food.choices = foods
 
     actual_nutritional_record['time'] = datetime.strptime(actual_nutritional_record['time'], '%H:%M:%S')
@@ -378,7 +378,6 @@ def user(id):
 def messages_nutritionist(receptor_id):
     form = MessageForm()
 
-
     auth = request.cookies['access_token']
     headers = {
         'content-type': "application/json",
@@ -391,44 +390,33 @@ def messages_nutritionist(receptor_id):
         data=json.dumps(data)
     )
     inscriptions = json.loads(r.text)
+    if len(inscriptions) == 0:
+        flash('No tiene ningún paciente', 'danger')
+        return redirect(url_for('main.main_nutritionist'))
 
 
     diabetics = []
-    for diabetic in inscriptions:
-        diabetics.append(diabetic["user_diabetic"])
-    print(diabetics)
+    for inscription in inscriptions:
+        diabetics.append(inscription["user_diabetic"])
 
-    receptor = {"id":0, "name": "Sistema", "surname": "Sistema"}
+    receptor = {"id": 0, "name": "Mensajes", "surname": "Sin Leer"}
+
+
     if receptor_id != 0:
         for diabetic in diabetics:
             if diabetic["id"] == receptor_id:
                 diabetics.remove(diabetic)
-                diabetics.append({"id":0, "name": "Mensajes", "surname": "Sin Leer"})
+                diabetics.append({"id": 0, "name": "Mensajes", "surname": "Sin Leer"})
                 receptor = diabetic
                 break
-    print(diabetics)
 
-    """diabetics = [(item['diabetic_id'], (item['user_diabetic']['name'], item['user_diabetic']['surname']))
-                  for item in inscriptions]
-    diabetics.insert(0, (0, ('Selecione el paciente', '')))
-    if receptor_id != 0:
-        for item in inscriptions:
-            if item['diabetic_id'] == receptor_id:
-                diabetic = (item['diabetic_id'], (item['user_diabetic']['name'], item['user_diabetic']['surname']))
-                diabetics.remove(diabetic)
-                diabetics.insert(0, diabetic)
-                break"""
-
-
-
-    if receptor_id != 0:
         data = {}
         data["sender_id"] = current_user.id
         data["receptor_id"] = receptor_id
-        data["all_chat"] = True
+
 
         r = requests.get(
-            current_app.config["API_URL"] + '/messages',
+            current_app.config["API_URL"] + '/all_chat',
             headers=headers,
             data=json.dumps(data)
         )
@@ -442,11 +430,9 @@ def messages_nutritionist(receptor_id):
                     headers=headers,
                     data=json.dumps(data)
                 )
-                print(r.text)
 
         unread_messages_sender = []
     else:
-        print("mensajes sin leer")
         data = {}
         data["receptor_id"] = current_user.id
 
@@ -456,25 +442,20 @@ def messages_nutritionist(receptor_id):
             headers=headers,
             data=json.dumps(data)
         )
-        print('mensajes',r.text)
         messages = json.loads(r.text)
-        unread_messages_sender = []
         messages_unread_sender = ''
         for message in messages:
             if message["receptor_id"] == current_user.id and message['read'] == False:
-                if message["sender"]["name"] + " " + message["sender"]["surname"] not in unread_messages_sender:
-                    unread_messages_sender.append(message["sender"]["name"] + " " + message["sender"]["surname"])
+                if message["sender"]["name"] + " " + message["sender"]["surname"] not in messages_unread_sender:
                     messages_unread_sender += message["sender"]["name"] + " " + message["sender"]["surname"] + " - "
-        print(unread_messages_sender)
-        if len(unread_messages_sender) == 0:
-            unread_messages_sender.append("No hay mensajes sin leer")
-            flash('No tienes mensajes nuevos', 'danger')
+
+        if len(messages_unread_sender) == 0:
+            flash('No tienes mensajes nuevos', 'info')
         else:
-            flash('Tienes mensajes sin leer de: ' + messages_unread_sender, 'danger')
+            flash('Tienes mensajes sin leer de: ' + messages_unread_sender, 'info')
 
 
     if form.validate_on_submit():
-        print("enviando mensaje")
         data = {}
         data["sender_id"] = current_user.id
         data["receptor_id"] = receptor_id
@@ -492,18 +473,14 @@ def messages_nutritionist(receptor_id):
         data = {}
         data["sender_id"] = current_user.id
         data["receptor_id"] = receptor_id
-        data["all_chat"] = True
 
         r = requests.get(
-            current_app.config["API_URL"] + '/messages',
+            current_app.config["API_URL"] + '/all_chat',
             headers=headers,
             data=json.dumps(data)
         )
         messages = json.loads(r.text)
-        print(r.text)
-        print(unread_messages_sender)
-    return render_template('/messages_nutritionist.html', messages=messages, diabetics=diabetics, form=form, receptor=receptor,
-                           unread_messages_sender=unread_messages_sender)
+    return render_template('/messages_nutritionist.html', messages=messages, diabetics=diabetics, form=form, receptor=receptor)
 
 
 
@@ -524,24 +501,14 @@ def messages_diabetic():
         data=json.dumps(data)
     )
     inscriptions = json.loads(r.text)
+    if len(inscriptions) == 0:
+        flash('Todavía no tienes un nutricionista asignado', 'danger')
+        return redirect(url_for('main.main_diabetic'))
     nutritionist = inscriptions[0]["user_nutritionist"]
 
 
-    data = {}
-    data["sender_id"] = current_user.id
-    data["receptor_id"] = nutritionist["id"]
-    data["all_chat"] = True
-
-    r = requests.get(
-        current_app.config["API_URL"] + '/messages',
-        headers=headers,
-        data=json.dumps(data)
-    )
-    messages = json.loads(r.text)
-
 
     if form.validate_on_submit():
-        print("enviando mensaje")
         data = {}
         data["sender_id"] = current_user.id
         data["receptor_id"] = nutritionist["id"]
@@ -556,22 +523,22 @@ def messages_diabetic():
             data=json.dumps(data)
         )
 
-        data = {}
-        data["sender_id"] = current_user.id
-        data["receptor_id"] = nutritionist["id"]
-        data["all_chat"] = True
+    data = {}
+    data["sender_id"] = current_user.id
+    data["receptor_id"] = nutritionist["id"]
 
-        r = requests.get(
-            current_app.config["API_URL"] + '/messages',
-            headers=headers,
-            data=json.dumps(data)
-        )
-        messages = json.loads(r.text)
+    r = requests.get(
+        current_app.config["API_URL"] + '/all_chat',
+        headers=headers,
+        data=json.dumps(data)
+    )
+    messages = json.loads(r.text)
+
+
     new_messages = False
+    data = {}
     data['read'] = True
-    print(messages)
     for message in messages:
-        print(message)
         if message["receptor_id"] == current_user.id and message['read'] == False:
             r = requests.put(
                 current_app.config["API_URL"] + '/messages/{}'.format(message["id"]),
@@ -579,10 +546,9 @@ def messages_diabetic():
                 data=json.dumps(data)
             )
             new_messages = True
-            print(new_messages)
-
+    print(data)
     if new_messages == True:
-        flash('Tiene nuevos mensajes sin leer', 'warning')
+        flash('Tiene nuevos mensajes sin leer', 'info')
 
 
     return render_template('/messages_diabetic.html', messages=messages, form=form, nutritionist=nutritionist)

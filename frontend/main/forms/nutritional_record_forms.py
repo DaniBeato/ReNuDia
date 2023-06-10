@@ -11,7 +11,7 @@ class NutritionalRecordForm(FlaskForm):
 
     time = TimeField('Introduzca la hora:')
 
-    food = SelectField('Introduzca el alimento ingerido:', [validators.NoneOf([0], message="Debe seleccionar un alimento", values_formatter=None)], coerce=int, validate_choice=False)
+    food = SelectField('Introduzca el alimento ingerido:', [validators.optional()], coerce=int, validate_choice=False)
 
 
     glucose_value = IntegerField('Introduzca su valor glucémico:',
@@ -22,7 +22,7 @@ class NutritionalRecordForm(FlaskForm):
 
     amount_food = StringField('Introduzca la cantidad del alimento que ha ingerido:',
                             [
-                                validators.data_required(message="Debe introducir la cantidad del alimento que ha ingerido"),
+                                validators.optional(),
                                 # validators.Required(message="Formato inválido")
                             ])
 

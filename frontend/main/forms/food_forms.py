@@ -9,7 +9,7 @@ class FoodForm(FlaskForm):
 
     name = StringField('Introduzca el nombre del alimento:')
 
-    amount_sugar = IntegerField('Introduzca la cantidad de glucosa que posee el alimento:')
+    carbohydrates = IntegerField('Introduzca la cantidad de carbohidratos que posee el alimento:')
 
 
 

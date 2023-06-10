@@ -16,6 +16,13 @@ class NutritionalRecordRepository:
     def get_by_diabetic_id(self, diabetic_id):
         return self.nutritional_records.query.filter_by(diabetic_id = diabetic_id).all()
 
+
+    def get_last_nutritional_record(self, diabetic_id):
+        nutritional_records = self.get_by_diabetic_id(diabetic_id)
+        nutritional_records = sorted(nutritional_records, key=lambda nutritional_record : nutritional_record['id'])
+        last_nutritional_record = nutritional_records[-1]
+        return last_nutritional_record
+
     def create(self, nutritional_record):
         db.session.add(nutritional_record)
         db.session.commit()
