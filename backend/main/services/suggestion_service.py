@@ -13,12 +13,13 @@ class SuggestionService():
 
 
     def get_suggestion(self, user_id):
-        foods = self.food_repository.get_all()
         last_nutritional_record = self.nutritional_record_repository.get_last_nutritional_record(user_id)
+        if last_nutritional_record is None:
+            return ""
         glycemic_status = self.glycemic_status_calculator.calculate_glycemic_status(last_nutritional_record)
         if glycemic_status == "hypoglycemia":
-            food = self.food_selector.select_food(last_nutritional_record, foods)
-            return "Tiene muy poca azúcar en sangre, se le recomienda comer " + food['name'] + " en una cantidad de " + \
+            food = self.food_selector.select_food(last_nutritional_record)
+            return "Tiene muy poca azúcar en sangre, se le recomienda comer " + food['food'] + " en una cantidad de " + \
                 str(food['amount']) + " gramos y consultar urgente a su médico nutricionista."
         elif glycemic_status == "hyperglycemia":
             return "Tiene exceso de azúcar en sangre, se le recomienda hacer ejercicio, tomar agua y " \

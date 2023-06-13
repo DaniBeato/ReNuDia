@@ -68,8 +68,8 @@ def main_diabetic():
         current_app.config["API_URL"] + '/foods',
         headers=headers)
     print(r.text)
-    foods = [(item['id'], (item['name'], item['carbohydrates'] + " gramos de carbohidratos")) for item in json.loads(r.text)]
-    foods.insert(0, (0, 'Selecione una opción'))
+    foods = [(item['id'], (item['name'], item['carbohydrates'])) for item in json.loads(r.text)]
+    #foods.insert(0, (0, 'Selecione una opción'))
     form.food.choices = foods
 
     data = {"diabetic_id": current_user.id}
@@ -135,11 +135,11 @@ def update_nutritional_record(nutritional_record_id):
         headers=headers)
     print(r.text)
 
-    foods = [(item['id'], (item['name'], item['carbohydrates'] + " gramos de carbohidratos")) for item in json.loads(r.text)]
+    foods = [(item['id'], (item['name'], item['carbohydrates'])) for item in json.loads(r.text)]
     foods.remove((actual_nutritional_record['food']['id'],
                   (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['carbohydrates'])))
-    foods.insert(0, (actual_nutritional_record['food']['id'],
-                     (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['carbohydrates'])))
+    #foods.insert(0, (actual_nutritional_record['food']['id'],
+                    #(actual_nutritional_record['food']['name'], actual_nutritional_record['food']['carbohydrates'])))
     form.food.choices = foods
 
     actual_nutritional_record['time'] = datetime.strptime(actual_nutritional_record['time'], '%H:%M:%S')
@@ -549,6 +549,8 @@ def messages_diabetic():
     print(data)
     if new_messages == True:
         flash('Tiene nuevos mensajes sin leer', 'info')
+    else:
+        flash('No tiene mensajes nuevos', 'info')
 
 
     return render_template('/messages_diabetic.html', messages=messages, form=form, nutritionist=nutritionist)
@@ -663,7 +665,7 @@ def foods():
         data = {}
         # datetime.strptime(bolson_json.get('fecha'), '%Y-%m-%dT%H:%M:%S')
         data["name"] = form.name.data
-        data["amount_sugar"] = form.amount_sugar.data
+        data["carbohydrates"] = form.carbohydrates.data
         print(data)
         r = requests.post(
             current_app.config["API_URL"] + '/foods',
@@ -703,27 +705,30 @@ def update_food(food_id):
 
     r = requests.get(
         current_app.config["API_URL"] + '/foods',
-        headers=headers,
+        headers=headers
     )
     foods = json.loads(r.text)
+    print(foods)
 
     if form.validate_on_submit():
         data = {}
         # datetime.strptime(bolson_json.get('fecha'), '%Y-%m-%dT%H:%M:%S')
         data["name"] = form.name.data
-        data["amount_sugar"] = form.amount_sugar.data
+        data["carbohydrates"] = form.carbohydrates.data
         print(data)
         r = requests.put(
             current_app.config["API_URL"] + '/foods/{}'.format(food_id),
             headers=headers,
             data=json.dumps(data)
         )
+
         if r.status_code == 200:
             flash('Se ha modificado el alimento', 'success')
             return redirect(url_for('main.foods'))
         else:
             flash('No se pudo modificar el alimento', 'danger')
             return redirect(url_for('main.foods'))
+
     return render_template('/update_food.html', actual_food=actual_food, foods=foods, form=form)
 
 

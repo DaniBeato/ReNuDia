@@ -14,5 +14,6 @@ class NutritionalRecordModel(db.Model):
 
 
     def __repr__(self):
-        return "<Id: %r, User Id: %r, Date: %r, Food Id: %r, Glucose Value: %r>" %(self.id, self.diabetic_id, self.date,\
+        return "<Id: %r, User Id: %r, Date: %r, Time: %r ,Food Id: %r, Glucose Value: %r>" %(self.id, self.diabetic_id,
+                                                                                             self.date, self.time,
                                                                                    self.food_id, self.glucose_value)

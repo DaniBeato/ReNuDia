@@ -1,6 +1,9 @@
 from .. import db
 from .. models.nutritional_record_model import NutritionalRecordModel
+from .. maps.nutritional_record_schema import NutritionalRecordSchema
+import json
 
+nutritional_record_schema = NutritionalRecordSchema()
 
 class NutritionalRecordRepository:
     def __init__(self):
@@ -19,7 +22,7 @@ class NutritionalRecordRepository:
 
     def get_last_nutritional_record(self, diabetic_id):
         nutritional_records = self.get_by_diabetic_id(diabetic_id)
-        nutritional_records = sorted(nutritional_records, key=lambda nutritional_record : nutritional_record['id'])
+        nutritional_records = sorted(nutritional_record_schema.dump(nutritional_records, many=True), key=lambda nutritional_record : nutritional_record['id'])
         last_nutritional_record = nutritional_records[-1]
         return last_nutritional_record
 

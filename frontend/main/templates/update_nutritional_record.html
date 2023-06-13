@@ -33,7 +33,16 @@
                 </div>
 
                 <div class="mb-3">
-                  {{  show_field(form.food, class='form-control', value=actual_nutritional_record["food"]["name"])}}
+                  <label for="food">Seleccione un alimento (opcional):</label>
+                  <select class="form-select" aria-label="Default select example" name="food">
+                        <option selected value={{ actual_nutritional_record["food"]["id"] }}>
+                            {{ actual_nutritional_record["food"]["name"] }},
+                            {{ actual_nutritional_record["food"]["carbohydrates"] }} gramos de carbohidratos</option>
+                        {% for choice in form.food.choices %}
+                            <option value="{{ choice[0] }}">{{ choice[1][0] }}, {{ choice[1][1] }}  gramos de carbohidratos</option>
+                        {% endfor %}
+                        <option value="">Sin selección </option>
+                  </select>
                 </div>
 
                 <div class="mb-3">
