@@ -50,6 +50,9 @@ def create_app():
     api.add_resource(inscription_resource.InscriptionResource, '/inscriptions/<id>')
     from main.resources import suggestion_resource
     api.add_resource(suggestion_resource.SuggestionResource, '/suggestion')
+    from main.resources import doctor_resource
+    api.add_resource(doctor_resource.DoctorsResource, '/doctors')
+    api.add_resource(doctor_resource.DoctorResource, '/doctors/<name>/<surname>/<doctor_license>/<id_card>')
     api.init_app(app)
 
     return app

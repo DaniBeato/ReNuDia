@@ -82,6 +82,14 @@ def main_diabetic():
     print(nutritional_records)
 
     if form.validate_on_submit():
+        if form.amount_food.data == "" and form.food.data != None:
+            flash('Si selecciona un alimento, debe espedificar su cantidad.', 'danger')
+            return render_template('/main_diabetic.html', nutritional_records=nutritional_records,
+                                   form=form)
+        elif form.amount_food.data != "" and form.food.data == None:
+            flash('Si especifica una cantidad, debe seleccionar un alimento.', 'danger')
+            return render_template('/main_diabetic.html', nutritional_records=nutritional_records,
+                                   form=form)
         data = {}
         # datetime.strptime(bolson_json.get('fecha'), '%Y-%m-%dT%H:%M:%S')
         data["date"] = date.strftime(form.date.data, '%Y-%m-%d')
@@ -98,6 +106,12 @@ def main_diabetic():
         )
         if r.status_code == 200:
             flash('Se ha guardado el registro nutricional', 'success')
+            data = {"diabetic_id": current_user.id}
+            r = requests.get(
+                current_app.config["API_URL"] + '/suggestion',
+                headers=headers,
+                data=json.dumps(data))
+            flash(json.loads(r.text), 'warning')
             return redirect(url_for('main.main_diabetic'))
         else:
             flash('No se pudo guardar el registro nutricional', 'danger')
@@ -136,8 +150,10 @@ def update_nutritional_record(nutritional_record_id):
     print(r.text)
 
     foods = [(item['id'], (item['name'], item['carbohydrates'])) for item in json.loads(r.text)]
-    foods.remove((actual_nutritional_record['food']['id'],
+    if (actual_nutritional_record['food']) is not None:
+        foods.remove((actual_nutritional_record['food']['id'],
                   (actual_nutritional_record['food']['name'], actual_nutritional_record['food']['carbohydrates'])))
+        foods.append(("", ("", "")))
     #foods.insert(0, (actual_nutritional_record['food']['id'],
                     #(actual_nutritional_record['food']['name'], actual_nutritional_record['food']['carbohydrates'])))
     form.food.choices = foods
@@ -147,6 +163,14 @@ def update_nutritional_record(nutritional_record_id):
     print(actual_nutritional_record['time'])
 
     if form.validate_on_submit():
+        if form.amount_food.data == "" and form.food.data != None:
+            flash('Si selecciona un alimento, debe espedificar su cantidad.', 'danger')
+            return render_template('/update_nutritional_record.html', nutritional_records=nutritional_records,
+                                   actual_nutritional_record=actual_nutritional_record, form=form)
+        elif form.amount_food.data != "" and form.food.data == None:
+            flash('Si especifica una cantidad, debe seleccionar un alimento.', 'danger')
+            return render_template('/update_nutritional_record.html', nutritional_records=nutritional_records,
+                                   actual_nutritional_record=actual_nutritional_record, form=form)
         data = {}
         data["date"] = date.strftime(form.date.data, '%Y-%m-%d')
         data["time"] = time.strftime(form.time.data, '%H:%M:%S')
@@ -162,6 +186,13 @@ def update_nutritional_record(nutritional_record_id):
         )
         if r.status_code == 200:
             flash('Se ha modificado el registro nutricional', 'success')
+            if actual_nutritional_record["id"] == nutritional_records[-1]["id"]:
+                data = {"diabetic_id": current_user.id}
+                r = requests.get(
+                    current_app.config["API_URL"] + '/suggestion',
+                    headers=headers,
+                    data=json.dumps(data))
+                flash(json.loads(r.text), 'warning')
             return redirect(url_for('main.main_diabetic'))
         else:
             flash('No se pudo modificar el registro nutricional', 'danger')
@@ -260,7 +291,7 @@ def diabetic_register():
             req.set_cookie('access_token', user_data.get("access_token"), httponly=True)
             flash('Registro e inicio de sesión correctos', 'success')
             return req
-        else:
+        elif r.status_code == 409:
             flash('El email ingresado ya existe', 'danger')
             return render_template('/diabetic_register.html', form=form)
     return render_template('/diabetic_register.html', form=form)
@@ -269,13 +300,13 @@ def diabetic_register():
 @main.route('/nutritionist-register', methods=['POST', "GET"])
 def nutritionist_register():
     form = NutritionistRegisterForm()
-    form.gender.choices = ["masculino", "femenino"]
+    form.gender.choices = ["Seleccione una opción", "Masculino", "Femenino"]
     if form.validate_on_submit():
         data = {}
         data["name"] = form.name.data
         data["surname"] = form.surname.data
         data["age"] = form.age.data
-        if form.gender.data == "masculino":
+        if form.gender.data == "Masculino":
             data["gender"] = "male"
         else:
             data["gender"] = "female"
@@ -288,6 +319,14 @@ def nutritionist_register():
             'content-type': "application/json",
             'authorization': "Bearer"}
         print(data)
+        r = requests.get(
+            current_app.config["API_URL"] + '/doctors/{}'.format(data['name']) + '/{}'.format(data['surname'])
+            + '/{}'.format(data['doctor_license']) + '/{}'.format(data['id_card']),
+            headers=headers)
+        if len(json.loads(r.text)) == 0:
+            flash('Usted no es nutricionista, o no se encuentra en el Registro de Profesionales Inscriptos, '
+                  'o ha ingresado incorrectamente sus datos.', 'danger')
+            return render_template('/nutritionist_register.html', form=form)
         r = requests.post(
             current_app.config["API_URL"] + '/auth/register',
             headers=headers,
@@ -301,7 +340,7 @@ def nutritionist_register():
             req.set_cookie('access_token', user_data.get("access_token"), httponly=True)
             flash('Registro e inicio de sesión correctos', 'success')
             return req
-        else:
+        elif r.status_code == 409:
             flash('El email ingresado ya existe', 'danger')
             return render_template('/nutritionist_register.html', form=form)
     return render_template('/nutritionist_register.html', form=form)

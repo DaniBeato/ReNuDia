@@ -33,15 +33,22 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="food">Seleccione un alimento (opcional):</label>
+                  <label for="food">Seleccione el alimento ingerido (opcional):</label>
                   <select class="form-select" aria-label="Default select example" name="food">
-                        <option selected value={{ actual_nutritional_record["food"]["id"] }}>
+                        {% if not actual_nutritional_record["food"] %}
+                            <option value="" selected> </option>
+                        {% else %}
+                            <option selected value={{ actual_nutritional_record["food"]["id"] }}>
                             {{ actual_nutritional_record["food"]["name"] }},
                             {{ actual_nutritional_record["food"]["carbohydrates"] }} gramos de carbohidratos</option>
+                        {% endif %}
                         {% for choice in form.food.choices %}
-                            <option value="{{ choice[0] }}">{{ choice[1][0] }}, {{ choice[1][1] }}  gramos de carbohidratos</option>
+                            {% if choice[0] != "" %}
+                                <option value="{{ choice[0] }}">{{ choice[1][0] }}, {{ choice[1][1] }}  gramos de carbohidratos</option>
+                            {% else %}
+                                <option value="{{ choice[0] }}">{{ choice[1][0] }} {{ choice[1][1] }}</option>
+                            {% endif %}
                         {% endfor %}
-                        <option value="">Sin selección </option>
                   </select>
                 </div>
 

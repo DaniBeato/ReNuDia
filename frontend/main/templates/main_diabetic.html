@@ -32,9 +32,9 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="food">Seleccione un alimento (opcional):</label>
+                  <label for="food">Seleccione el alimento ingerido (opcional):</label>
                   <select class="form-select" aria-label="Default select example" name="food">
-                        <option selected value="">Sin selección </option>
+                        <option selected value=""></option>
                         {% for choice in form.food.choices %}
                             <option value="{{ choice[0] }}">{{ choice[1][0] }}, {{ choice[1][1] }}  gramos de carbohidratos</option>
                       {% endfor %}

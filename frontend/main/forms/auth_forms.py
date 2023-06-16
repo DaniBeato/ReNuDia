@@ -83,46 +83,46 @@ class DiabeticRegisterForm(FlaskForm):
 
 class NutritionistRegisterForm(FlaskForm):
 
-        name = StringField('name',
+        name = StringField('Ingrese su nombre: ',
                             [
                                 validators.data_required(message = 'Debe introducir un nombre'),
                                 validators.Length(min=2)
                             ])
 
-        surname = StringField('surname',
+        surname = StringField('Ingrese su apellido:',
                             [
                                 validators.data_required(message='Debe introducir un apellido'),
                                 validators.Length(min=5)
                             ])
 
-        age = IntegerField('age',
+        age = IntegerField('Ingrese su edad: ',
                             [
                                 validators.data_required(message="Debe introducir su edad"),
                                 #validators.Required(message="Formato inválido")
                             ])
 
-        gender = SelectField('gender')
+        gender = SelectField('Ingrese su sexo:',validators=[validators.AnyOf(values=['Masculino', 'Femenino'])])
 
 
-        doctor_license = StringField('doctor_license',
+        doctor_license = StringField('Ingrese su número certificado profesional:',
                                     [
                                         validators.data_required(message="Debe introducir su número de certificado"),
                                         # validators.Required(message="Formato inválido")
                                     ])
 
-        id_card = StringField('id_card',
+        id_card = StringField('Ingrese su número de documento:',
                                      [
                                          validators.data_required(message="Debe introducir su número de documento"),
                                          # validators.Required(message="Formato inválido")
                                      ])
 
-        email = EmailField('email',
+        email = EmailField('Ingrese su email:',
                            [
                                validators.data_required(message="Debe introducir su email"),
                                validators.Email(message='Formato inválido'),
                            ])
 
-        password = PasswordField('password',
+        password = PasswordField('Ingrese su contraseña:',
                                  [
                                      validators.data_required(message='Debe introducir su contraseña'),
                                      validators.Length(min=3)
@@ -136,13 +136,13 @@ class NutritionistRegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    email = EmailField('email',
+    email = EmailField('Ingrese su email:',
                        [
                            validators.data_required(message="Debe introducir su email"),
                            validators.Email(message='Formato inválido'),
                        ])
 
-    password = PasswordField('password',
+    password = PasswordField('Ingrese password:',
                              [
                                  validators.data_required(message='Debe introducir su contraseña'),
                                  validators.Length(min=3)
