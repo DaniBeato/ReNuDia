@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% import 'macros/table.html' as table %}
+
 
 
 {% block title %}
@@ -19,7 +19,7 @@
         <div class="col-md-5 p-5">
 
             <!-- FORM -->
-            <form action="{{ url_for('main.update_food', food_id=actual_food["id"]) }}" method="POST" class="card bg-black text-light">
+            <form action="{{ url_for('food.update_food', food_id=actual_food["id"]) }}" method="POST" class="card bg-black text-light">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="card-body p-4">
                 <h1 class="h5 mb-4">Editar alimento</h1>
@@ -69,8 +69,8 @@
                             <td>
                                 <div class="row justify-content-md-center">
                                     <div class="col-md-auto">
-                                        <a type="button" href="{{ url_for('main.update_food', food_id=food["id"]) }}" class="btn btn-primary me-md-3">Editar</a>
-                                        <a type="button" href="{{ url_for('main.delete_food', food_id=food["id"]) }}" class="btn btn-danger me-md-3">Eliminar</a>
+                                        <a type="button" href="{{ url_for('food.update_food', food_id=food["id"]) }}" class="btn btn-primary me-md-3">Editar</a>
+                                        <a type="button" href="{{ url_for('food.delete_food', food_id=food["id"]) }}" class="btn btn-danger me-md-3">Eliminar</a>
                                     </div>
                                 </div>
                             </td>

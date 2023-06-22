@@ -3,14 +3,14 @@
     {% if current_user.is_authenticated %}
         {% if current_user.rol == "diabetic" %}
           <a class="navbar-brand" href="{{ url_for('main.main_diabetic') }}">ReNuDia</a>
-          <a class="navbar-brand" href="{{ url_for('main.messages_diabetic') }}">Mensajes</a>
+          <a class="navbar-brand" href="{{ url_for('message.messages_diabetic') }}">Mensajes</a>
           <a class="navbar-brand" href="{{ url_for('main.logout') }}">Cerrar Sesión</a>
           <a class="navbar-brand" href="{{ url_for('main.user', id=current_user.id) }}">Ver Perfil</a>
         {% else %}
           <a class="navbar-brand" href="{{ url_for('main.main_nutritionist') }}">ReNuDia</a>
-          <a class="navbar-brand" href="{{ url_for('main.inscriptions_of_nutritionist_list') }}">Mis Pacientes</a>
-          <a class="navbar-brand" href="{{ url_for('main.foods') }}">Alimentos</a>
-          <a class="navbar-brand" href="{{ url_for('main.messages_nutritionist', receptor_id=0) }}">Mensajes</a>
+          <a class="navbar-brand" href="{{ url_for('inscription.inscriptions_of_nutritionist_list') }}">Mis Pacientes</a>
+          <a class="navbar-brand" href="{{ url_for('food.foods') }}">Alimentos</a>
+          <a class="navbar-brand" href="{{ url_for('message.messages_nutritionist', receptor_id=0) }}">Mensajes</a>
           <a class="navbar-brand" href="{{ url_for('main.logout') }}">Cerrar Sesión</a>
           <a class="navbar-brand" href="{{ url_for('main.user', id=current_user.id) }}">Ver Perfil</a>
         {% endif %}

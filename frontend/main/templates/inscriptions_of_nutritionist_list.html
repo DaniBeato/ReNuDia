@@ -36,7 +36,7 @@
                       <div class="col-md-4">
                           <div class="row justify-content-md-center">
                             <a href="{{ url_for('main.diabetic_info', diabetic_id=inscription_of_nutritionist["user_diabetic"]["id"]) }}" class="btn btn-primary btn-xl rounded-3 p-2 mt-4">Ver registros nutricionales</a>
-                            <a href="{{ url_for('main.delete_inscriptions_of_nutritionist', inscription_id=inscription_of_nutritionist["id"]) }}" class="btn btn-danger btn-xl rounded-3 p-2 mt-4">Eliminar de mis pacientes</a>
+                            <a href="{{ url_for('inscription.delete_inscriptions_of_nutritionist', inscription_id=inscription_of_nutritionist["id"]) }}" class="btn btn-danger btn-xl rounded-3 p-2 mt-4">Eliminar de mis pacientes</a>
                           </div>
                       </div>
                   </div>

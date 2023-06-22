@@ -60,7 +60,7 @@
 
 
     <div class="row justify-content-md-center p-5">
-        <form action="{{ url_for('main.messages_diabetic') }}" method="POST" class="row bg-black text-light">
+        <form action="{{ url_for('message.messages_diabetic') }}" method="POST" class="row bg-black text-light">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="mb-3">
                 <label for="message" class="form-label">Escriba su mensaje</label>

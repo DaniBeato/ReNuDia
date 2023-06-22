@@ -21,7 +21,7 @@
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title h2">{{ diabetics_without_nutritionist["name"] }}  &nbsp;{{ diabetics_without_nutritionist["surname"] }}</h3>
                   <div>
-                    <a href="{{ url_for('main.add_diabetic_to_nutritionist', diabetic_id=diabetics_without_nutritionist["id"]) }}" class="btn btn-primary btn-xl rounded-0 p-2 mt-1">Añadir a mis pacientes</a>
+                    <a href="{{ url_for('inscription.add_diabetic_to_nutritionist', diabetic_id=diabetics_without_nutritionist["id"]) }}" class="btn btn-primary btn-xl rounded-0 p-2 mt-1">Añadir a mis pacientes</a>
                   </div>
                 </div>
                 {% if diabetics_without_nutritionist["gender"] == "male" %}

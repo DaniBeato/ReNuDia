@@ -37,10 +37,10 @@
                       <ul class="dropdown-menu">
                           {% for diabetic in diabetics%}
                             {% if diabetic["id"] != 0  %}
-                              <li><a class="dropdown-item" href="{{ url_for('main.messages_nutritionist', receptor_id=diabetic["id"]) }}">{{ diabetic["name"] }} {{ diabetic["surname"] }}</a></li>
+                              <li><a class="dropdown-item" href="{{ url_for('message.messages_nutritionist', receptor_id=diabetic["id"]) }}">{{ diabetic["name"] }} {{ diabetic["surname"] }}</a></li>
                             {% else %}
                               <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item" href="{{ url_for('main.messages_nutritionist', receptor_id=diabetic["id"]) }}">{{ diabetic["name"] }} {{ diabetic["surname"] }}</a></li>
+                              <li><a class="dropdown-item" href="{{ url_for('message.messages_nutritionist', receptor_id=diabetic["id"]) }}">{{ diabetic["name"] }} {{ diabetic["surname"] }}</a></li>
                             {% endif %}
                           {% endfor %}
                       </ul>
@@ -94,7 +94,7 @@
 
     {% if receptor["id"] != 0 %}
         <div class="row justify-content-md-center p-5">
-            <form action="{{ url_for('main.messages_nutritionist', receptor_id=receptor["id"]) }}" method="POST" class="row bg-black text-light">
+            <form action="{{ url_for('message.messages_nutritionist', receptor_id=receptor["id"]) }}" method="POST" class="row bg-black text-light">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="mb-3">
                     <label for="message" class="form-label">Escriba su mensaje</label>

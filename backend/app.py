@@ -24,9 +24,9 @@ def load_doctors():
                 db.session.close()
             except:
                 db.session.rollback()
-        print('Doctors created')
+        print('Doctors created successfully')
     else:
-        print('Doctors loaded')
+        print('Doctors before created')
 
 if __name__ == '__main__':
     db.create_all()

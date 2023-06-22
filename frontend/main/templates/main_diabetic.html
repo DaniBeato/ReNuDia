@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-{% import 'macros/table.html' as table %}
 {% from 'macros/form.html' import show_field, show_submit %}
 
 
@@ -78,8 +77,8 @@
                             <td>
                                 <div class="row justify-content-md-center">
                                     <div class="col-md-auto">
-                                        <a type="button" href="{{ url_for('main.update_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-primary me-md-3">Editar</a>
-                                        <a type="button" href="{{ url_for('main.delete_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-danger me-md-3">Eliminar</a>
+                                        <a type="button" href="{{ url_for('nutritional_record.update_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-primary me-md-3">Editar</a>
+                                        <a type="button" href="{{ url_for('nutritional_record.delete_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-danger me-md-3">Eliminar</a>
                                     </div>
                                 </div>
                             </td>
