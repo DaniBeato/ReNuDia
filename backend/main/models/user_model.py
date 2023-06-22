@@ -1,6 +1,5 @@
-from .message_model import MessageModel
+#from .message_model import MessageModel
 from .. import db
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class UserModel(db.Model):
@@ -11,24 +10,25 @@ class UserModel(db.Model):
     name = db.Column(db.String(64), nullable=False)
     surname = db.Column(db.String(64), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    weight = db.Column(db.Integer, nullable=False)
-    height = db.Column(db.Integer, nullable=False)
+    weight = db.Column(db.Integer, nullable=True)
+    height = db.Column(db.Integer, nullable=True)
     gender = db.Column(db.String(64), nullable=False)
     rol = db.Column(db.String(64), nullable=False)
     diabetes_type = db.Column(db.String(64), nullable=True)
     doctor_license = db.Column(db.String(64), nullable=True)
-    messages_sent = db.relationship("MessageModel", back_populates="senders",
+    id_card = db.Column(db.String(64), nullable=True)
+    messages_sent = db.relationship("MessageModel", back_populates="sender",
                                     primaryjoin="MessageModel.sender_id==UserModel.id", cascade="all, delete-orphan")
-    messages_recept = db.relationship("MessageModel", back_populates="receptors",
+    messages_recept = db.relationship("MessageModel", back_populates="receptor",
                                     primaryjoin="MessageModel.receptor_id==UserModel.id", cascade="all, delete-orphan")
     nutritional_records = db.relationship("NutritionalRecordModel",
-                                         primaryjoin="NutritionalRecordModel.user_id==UserModel.id",
-                                         back_populates="users", cascade="all, delete-orphan")
-    nutritionist = db.relationship("NutritionistDiabeticModel", back_populates="user_nutritionist",
-                                   primaryjoin="UserModel.id==NutritionistDiabeticModel.nutritionist_id",
+                                         primaryjoin="NutritionalRecordModel.diabetic_id==UserModel.id",
+                                         back_populates="user", cascade="all, delete-orphan")
+    inscriptions_nutritionist = db.relationship("InscriptionModel", back_populates="user_nutritionist",
+                                   primaryjoin="UserModel.id==InscriptionModel.nutritionist_id",
                                    cascade="all, delete-orphan")
-    diabetic = db.relationship("NutritionistDiabeticModel", back_populates="user_diabetic",
-                               primaryjoin="UserModel.id==NutritionistDiabeticModel.diabetic_id",
+    inscription_diabetic = db.relationship("InscriptionModel", back_populates="user_diabetic",
+                               primaryjoin="UserModel.id==InscriptionModel.diabetic_id",
                                cascade="all, delete-orphan")
 
 

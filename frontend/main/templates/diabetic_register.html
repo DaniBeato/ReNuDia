@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% from 'macros/form.html' import show_field, show_submit %}
 
 {% block title %}
   Register
@@ -8,91 +8,37 @@
 {% block body %}
     <!-- FORM -->
     <div class="row" >
+        {% include 'partials/_message.html' %}
         <form action="{{ url_for('main.diabetic_register') }}" method="POST" class="card bg-black text-light">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="card-body p-5">
                 <h1 class="h5 mb-4">Nuevo Paciente Diabético</h1>
                 <div class="mb-3">
-                    <label for="name">Inserte su nombre:</label>
-                    <input
-                        type="text"
-                        name="name"
-                        class="form-control rounded-2  border-2"
-                        placeholder="Nombre"
-                        autofocus
-                    />
+                    {{  show_field(form.name, class='form-control rounded-2  border-2', placeholder='Nombre')}}
                 </div>
                 <div class="mb-3">
-                  <label for="surname">Inserte su apellido:</label>
-                  <input
-                    type="text"
-                    name="surname"
-                    class="form-control rounded-2  border-2"
-                    placeholder="Apellido"
-                    required
-                  />
+                    {{  show_field(form.surname, class='form-control rounded-2  border-2', placeholder='Apellido')}}
                 </div>
                 <div class="mb-3">
-                  <label for="age">Inserte su edad:</label>
-                  <input
-                    type="text"
-                    name="age"
-                    class="form-control rounded-2  border-2"
-                    placeholder="24"
-                  />
+                    {{  show_field(form.age, class='form-control rounded-2  border-2', placeholder='23')}}
                 </div>
                 <div class="mb-3">
-                  <label for="weight">Inserte su peso:</label>
-                  <input
-                    type="text"
-                    name="weight"
-                    class="form-control rounded-2  border-2"
-                    placeholder="80"
-                  />
+                    {{  show_field(form.weight, class='form-control rounded-2  border-2', placeholder='80')}}
                 </div>
                 <div class="mb-3">
-                  <label for="height">Inserte su altura:</label>
-                  <input
-                    type="text"
-                    name="height"
-                    class="form-control rounded-2  border-2"
-                    placeholder="180"
-                  />
+                    {{  show_field(form.height, class='form-control rounded-2  border-2', placeholder='180')}}
                 </div>
                 <div class="mb-3">
-                  <label for="gender">Inserte su sexo:</label>
-                  <select class="form-select" aria-label="Default select example" name="gender">
-                      <option selected>Seleccione una opción</option>
-                      <option value="masculino">Masculino</option>
-                      <option value="femenino">Femenino</option>
-                  </select>
+                    {{  show_field(form.gender, class='form-select rounded-2  border-2')}}
                 </div>
                 <div class="mb-3">
-                  <label for="diabetes_type">Inserte su tipo de diabetes:</label>
-                  <input
-                    type="text"
-                    name="diabetes_type"
-                    class="form-control rounded-2  border-2"
-                    placeholder="1"
-                  />
+                    {{  show_field(form.diabetes_type, class='form-control rounded-2  border-2', placeholder='1')}}
                 </div>
                 <div class="mb-3">
-                  <label for="email">Inserte su email:</label>
-                  <input
-                    type="text"
-                    name="email"
-                    class="form-control rounded-2  border-2"
-                    placeholder="santiago@gmail.com"
-                  />
-                  </div>
+                    {{  show_field(form.email, class='form-control rounded-2  border-2', placeholder='ejemplo@correo.com')}}
+                </div>
                 <div class="mb-3">
-                  <label for="password">Inserte su contraseña:</label>
-                  <input
-                    type="text"
-                    name="password"
-                    class="form-control rounded-2  border-2"
-                    placeholder="**********"
-                  />
+                  {{  show_field(form.password, class='form-control rounded-2  border-2', placeholder='*****************')}}
                 </div>
                 <button class="btn btn-primary">Registrarse</button>
             </div>

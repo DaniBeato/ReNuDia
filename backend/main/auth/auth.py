@@ -1,12 +1,11 @@
 
-from flask import request, jsonify, Blueprint
+from flask import request, Blueprint
 from .. import db
 from main.models import UserModel
 from main.maps import UserSchema
-from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, get_jwt
-from datetime import datetime
-import os
+from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 user_schema = UserSchema()
 

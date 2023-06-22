@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+{% from 'macros/form.html' import show_field, show_submit %}
+
+
+
+{% block title %}
+  Nutritionist Messages
+{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-md-center p-5">
+        {% include 'partials/_message.html' %}
+        {% if receptor["id"] != 0 %}
+             <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <div class="card mb-3 bg-black text-white">
+                        <div class="card-body py-2 px-3">
+                            <h2 class="card-title h2">Paciente: {{ receptor["name"] }} {{ receptor["surname"] }}</h2>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        {% endif %}
+        <div class="col-mb-8 py-5 px-5">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+              <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        {% if receptor["id"] != 0 %}
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ receptor["name"]}} {{ receptor["surname"] }}</a>
+                        {% else %}
+                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Seleccione el Paciente
+                          </a>
+                        {% endif %}
+                      <ul class="dropdown-menu">
+                          {% for diabetic in diabetics%}
+                            {% if diabetic["id"] != 0  %}
+                              <li><a class="dropdown-item" href="{{ url_for('message.messages_nutritionist', receptor_id=diabetic["id"]) }}">{{ diabetic["name"] }} {{ diabetic["surname"] }}</a></li>
+                            {% else %}
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="{{ url_for('message.messages_nutritionist', receptor_id=diabetic["id"]) }}">{{ diabetic["name"] }} {{ diabetic["surname"] }}</a></li>
+                            {% endif %}
+                          {% endfor %}
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center p-5">
+        {% if receptor["id"] != 0 %}
+              {% for message in messages %}
+                  {% if message["sender_id"] == current_user.id %}
+                       <div class="row">
+                            <div class="col-md-8">
+                                <div class="card mb-3 bg-black text-white">
+                                    <div class="card-body py-2 px-3">
+                                        <h4 class="card-title h4">{{ message["sender"]["name"] }} {{ message["sender"]["surname"] }}</h4>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="card-text">{{ message["message"] }}</p>
+                                            <p class="card-text">{{ message["date"] }} {{ message["time"] }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                       </div>
+                  {% endif %}
+                  {% if message["sender_id"]!= current_user.id %}
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8">
+                                <div class="card mb-3 bg-black text-white">
+                                    <div class="card-body py-2 px-3">
+                                        <h4 class="card-title h4">{{ message["sender"]["name"] }} {{ message["sender"]["surname"] }}</h4>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="card-text">{{ message["message"] }}</p>
+                                            <p class="card-text">{{ message["date"] }} {{ message["time"] }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                  {% endif %}
+             {% endfor %}
+        {% endif %}
+    </div>
+
+
+    {% if receptor["id"] != 0 %}
+        <div class="row justify-content-md-center p-5">
+            <form action="{{ url_for('message.messages_nutritionist', receptor_id=receptor["id"]) }}" method="POST" class="row bg-black text-light">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Escriba su mensaje</label>
+                    <textarea class="form-control" id="message" rows="3" name="message"></textarea>
+                </div>
+                <div class="col-mb-4 p-3">
+                  <button class="btn btn-primary">Enviar Mensaje</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+
+{% endblock %}

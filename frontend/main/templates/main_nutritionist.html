@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}
+  Main Nutritionist
+{% endblock %}
+
+
+{% block body %}
+
+    {% include 'partials/_message.html' %}
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-7 ">
+            <div class="d-flex justify-content-center">
+                <h1 class="card mb-1 bg-black text-white">Pacientes Sin Atención</h1>
+            </div>
+            {% for diabetics_without_nutritionist in diabetics_without_nutritionists %}
+            <div class="card mb-1 bg-black text-white mt-5">
+              <div class="card-body py-2 px-5">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title h2">{{ diabetics_without_nutritionist["name"] }}  &nbsp;{{ diabetics_without_nutritionist["surname"] }}</h3>
+                  <div>
+                    <a href="{{ url_for('inscription.add_diabetic_to_nutritionist', diabetic_id=diabetics_without_nutritionist["id"]) }}" class="btn btn-primary btn-xl rounded-0 p-2 mt-1">Añadir a mis pacientes</a>
+                  </div>
+                </div>
+                {% if diabetics_without_nutritionist["gender"] == "male" %}
+                    <h5 class="card-text">Sexo: Masculino</h5>
+                {% else %}
+                    <h5 class="card-text">Sexo: Femenino</h5>
+                {% endif %}
+                <h4 class="card-text">Edad: {{ diabetics_without_nutritionist["age"] }} años</h4>
+                <h4 class="card-text">Altura: {{ diabetics_without_nutritionist["height"] }} cm</h4>
+                <h4 class="card-text">Peso: {{ diabetics_without_nutritionist["weight"] }} kg</h4>
+                <h4 class="card-text">Tipo de diabetes: {{ diabetics_without_nutritionist["diabetes_type"] }}</h4>
+                <h4 class="card-text">Email: {{ diabetics_without_nutritionist["email"] }}</h4>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

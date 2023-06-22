@@ -31,25 +31,16 @@ def load_user(request):
 @login_manager.unauthorized_handler
 def unauthorized_callback():
     flash('Debe iniciar sesión para continuar','warning')
-    return redirect((url_for('main.vista_principal')))
+    return redirect((url_for('main.login')))
 
-
-def admin_required(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        if not current_user.rol == "admin":
-            flash('Acceso restringido a administradores.', 'warning')
-            return redirect(url_for('main.vista_principal'))
-        return fn(*args, **kwargs)
-    return wrapper
 
 
 def nutritionist_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if not current_user.rol == "nutricionista":
-            flash('Acceso restringido a nutricionistas.','warning')
-            return redirect(url_for('main.vista_principal'))
+        if not current_user.rol == "nutritionist":
+            flash('Acceso restringido a médicos nutricionistas.','danger')
+            return redirect(url_for('main.main_diabetic'))
         return fn(*args, **kwargs)
     return wrapper
 
@@ -57,32 +48,12 @@ def nutritionist_required(fn):
 def diabetic_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if not current_user.rol == "diabetico":
-            flash('Acceso restringido a [acientes diabéticos].', 'warning')
-            return redirect(url_for('main.vista_principal'))
+        if not current_user.rol == "diabetic":
+            flash('Acceso restringido a pacientes diabéticos.', 'danger')
+            return redirect(url_for('main.main_nutritionist'))
         return fn(*args, **kwargs)
     return wrapper
 
-
-def admin_or_nutritionist(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        if current_user.rol != "admin" and  current_user.rol != "nutricionista":
-            flash('Acceso restringido a administradores o nutricionistas.', 'warning')
-            return redirect(url_for('main.vista_principal'))
-        return fn(*args, **kwargs)
-    return wrapper
-
-
-
-def admin_or_diabetic(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        if current_user.rol != "admin" and current_user.rol != "diabetico":
-            flash('Acceso restringido a administradores y pacientes diabéticos.', 'warning')
-            return redirect(url_for('main.vista_principal'))
-        return fn(*args, **kwargs)
-    return wrapper
 
 
 def token_vencido(fn):
@@ -90,7 +61,7 @@ def token_vencido(fn):
     def wrapper(*args, **kwargs):
         if current_user.is_anonymous:
             flash('Debe iniciar sesión para continuar', 'warning')
-            return redirect((url_for('main.vista_principal')))
+            return redirect((url_for('main.login')))
         return fn(*args, **kwargs)
     return wrapper
 

@@ -16,8 +16,16 @@ def create_app():
     app.config['API_URL'] = os.getenv('API_URL')
     app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
     csrf.init_app(app)
-    csrf.init_app(app)
+    app.config["WTF_CSRF_TIME_LIMIT"] = None
     login_manager.init_app(app)
     from main.routes import main
     app.register_blueprint(routes.main.main)
+    from main.routes import nutritional_record
+    app.register_blueprint(routes.nutritional_record.nutritional_record)
+    from main.routes import message
+    app.register_blueprint(routes.message.message)
+    from main.routes import inscription
+    app.register_blueprint(routes.inscription.inscription)
+    from main.routes import food
+    app.register_blueprint(routes.food.food)
     return app

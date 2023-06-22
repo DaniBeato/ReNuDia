@@ -1,6 +1,9 @@
 from .. import db
 from .. models.nutritional_record_model import NutritionalRecordModel
+from .. maps.nutritional_record_schema import NutritionalRecordSchema
+import json
 
+nutritional_record_schema = NutritionalRecordSchema()
 
 class NutritionalRecordRepository:
     def __init__(self):
@@ -13,8 +16,15 @@ class NutritionalRecordRepository:
         return self.nutritional_records.query.get(id)
 
 
-    def get_by_user_id(self, user_id):
-        return self.nutritional_records.query.filter_by(user_id = user_id).all()
+    def get_by_diabetic_id(self, diabetic_id):
+        return self.nutritional_records.query.filter_by(diabetic_id = diabetic_id).all()
+
+
+    def get_last_nutritional_record(self, diabetic_id):
+        nutritional_records = self.get_by_diabetic_id(diabetic_id)
+        nutritional_records = sorted(nutritional_record_schema.dump(nutritional_records, many=True), key=lambda nutritional_record : nutritional_record['id'])
+        last_nutritional_record = nutritional_records[-1]
+        return last_nutritional_record
 
     def create(self, nutritional_record):
         db.session.add(nutritional_record)

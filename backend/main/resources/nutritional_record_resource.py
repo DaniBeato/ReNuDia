@@ -18,8 +18,8 @@ class NutritionalRecordsResource(Resource):
         filters = request.data
         if filters:
             for key, value in request.get_json().items():
-                if key == 'user_id':
-                    nutritional_records = nutritional_record_repository.get_by_user_id(int(value))
+                if key == 'diabetic_id':
+                    nutritional_records = nutritional_record_repository.get_by_diabetic_id(int(value))
         else:
             nutritional_records = nutritional_record_repository.get_all()
         return nutritional_record_schema.dump(nutritional_records, many = True), 200

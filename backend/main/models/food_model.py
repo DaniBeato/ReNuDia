@@ -4,10 +4,10 @@ class FoodModel(db.Model):
     __tablename__ = 'foods'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
-    amount_sugar = db.Column(db.Integer, nullable=False)
+    carbohydrates = db.Column(db.Float, nullable=False)
     nutritional_records = db.relationship("NutritionalRecordModel",
                                          primaryjoin="NutritionalRecordModel.food_id==FoodModel.id",
-                                         back_populates="foods", cascade="all, delete-orphan")
+                                         back_populates="food", cascade="all, delete-orphan")
 
 
 

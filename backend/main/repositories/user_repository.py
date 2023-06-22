@@ -1,5 +1,6 @@
 from .. import db
 from .. models.user_model import UserModel
+from werkzeug.security import generate_password_hash
 
 
 class UserRepository:
@@ -18,6 +19,11 @@ class UserRepository:
     def get_by_email(self, email):
         return self.users.query.filter_by(email=email).first()
 
+    def get_diabetics_without_nutritionist(self):
+        return self.users.query.filter_by(rol="diabetic", inscription_diabetic=None).all()
+
+
+
     def create(self, user):
         db.session.add(user)
         db.session.commit()
@@ -26,7 +32,10 @@ class UserRepository:
     def update(self, id, data):
         user = self.users.query.get(id)
         for key, value in data:
-            setattr(user, key, value)
+            if key == 'password':
+                setattr(user, key, generate_password_hash(value))
+            else:
+                setattr(user, key, value)
         db.session.add(user)
         db.session.commit()
         return user

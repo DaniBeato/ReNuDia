@@ -44,12 +44,16 @@ def create_app():
     from main.resources import message_resource
     api.add_resource(message_resource.MessagesResource, '/messages')
     api.add_resource(message_resource.MessageResource, '/messages/<id>')
-    from main.resources import nutritionist_diabetic_resource
-    api.add_resource(nutritionist_diabetic_resource.NutritionistDiabeticsResource, '/nutritionist_diabetics')
-    api.add_resource(nutritionist_diabetic_resource.NutritionistDiabeticResource, '/nutritionist_diabetics/<id>')
+    api.add_resource(message_resource.AllChatResource, '/all_chat')
+    from main.resources import inscription_resource
+    api.add_resource(inscription_resource.InscriptionsResource, '/inscriptions')
+    api.add_resource(inscription_resource.InscriptionResource, '/inscriptions/<id>')
+    from main.resources import suggestion_resource
+    api.add_resource(suggestion_resource.SuggestionResource, '/suggestion')
+    from main.resources import doctor_resource
+    api.add_resource(doctor_resource.DoctorsResource, '/doctors')
+    api.add_resource(doctor_resource.DoctorResource, '/doctors/<name>/<surname>/<doctor_license>/<id_card>')
     api.init_app(app)
-
-
 
     return app
 

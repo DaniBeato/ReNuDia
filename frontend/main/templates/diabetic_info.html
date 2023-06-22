@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+
+
+{% block title %}
+  Diabetic
+{% endblock %}
+
+{% from 'macros/form.html' import show_field, show_submit %}
+{% block body %}
+
+    <!-- FORM -->
+    <div class="row">
+
+        <!-- MESSAGE -->
+        {% include 'partials/_message.html' %}
+
+        <div class="col-md-5 p-5">
+
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <div class="card mb-1 bg-black text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <h1 class="card mb-5 bg-black text-white">Paciente Diabético</h1>
+                            </div>
+                            <div class="d-flex align-items-start flex-column p-5">
+                                <h5 class="card-text">Nombre: {{ diabetic["name"] }}</h5>
+                                <h5 class="card-text">Apellido: {{ diabetic["surname"] }}</h5>
+                                <h5 class="card-text">Email: {{ diabetic["email"] }}</h5>
+                                <h5 class="card-text">Altura: {{ diabetic["height"] }}</h5>
+                                <h5 class="card-text">Peso: {{ diabetic["weight"] }}</h5>
+                                <h5 class="card-text">Typo de diabetes: {{ diabetic["diabetes_type"] }}</h5>
+                                {% if diabetic["gender"] == "male" %}
+                                    <h5 class="card-text">Sexo: Masculino</h5>
+                                {% else %}
+                                    <h5 class="card-text">Sexo: Femenino</h5>
+                                {% endif %}
+                                <h5 class="card-text">Edad: {{ diabetic["age"] }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- nutritional records -->
+        <div class="col-md-7 p-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-dark table-striped">
+                        <tr>
+                            <th> Fecha </th>
+                            <th> Hora </th>
+                            <th> Alimento </th>
+                            <th> Cantidad </th>
+                            <th> Glucosa en sangre </th>
+                        </tr>
+                        <tr>
+                            {% for nutritional_record in nutritional_records %}
+                                <th>{{ nutritional_record["date"] }}</th>
+                                <th>{{ nutritional_record["time"] }}</th>
+                                <th>{{ nutritional_record["food"]["name"] }}</th>
+                                <th>{{ nutritional_record["amount_food"] }}</th>
+                                <th>{{ nutritional_record["glucose_value"] }}</th>
+                        </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
