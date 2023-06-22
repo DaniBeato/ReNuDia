@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% from 'macros/form.html' import show_field, show_submit %}
+
+{% block title %}
+  Register
+{% endblock %}
+
+{% block body %}
+    <!-- FORM -->
+    <div class="row" >
+        {% include 'partials/_message.html' %}
+        <form action="{{ url_for('main.diabetic_register') }}" method="POST" class="card bg-black text-light">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="card-body p-5">
+                <h1 class="h5 mb-4">Nuevo Paciente Diabético</h1>
+                <div class="mb-3">
+                    {{  show_field(form.name, class='form-control rounded-2  border-2', placeholder='Nombre')}}
+                </div>
+                <div class="mb-3">
+                    {{  show_field(form.surname, class='form-control rounded-2  border-2', placeholder='Apellido')}}
+                </div>
+                <div class="mb-3">
+                    {{  show_field(form.age, class='form-control rounded-2  border-2', placeholder='23')}}
+                </div>
+                <div class="mb-3">
+                    {{  show_field(form.weight, class='form-control rounded-2  border-2', placeholder='80')}}
+                </div>
+                <div class="mb-3">
+                    {{  show_field(form.height, class='form-control rounded-2  border-2', placeholder='180')}}
+                </div>
+                <div class="mb-3">
+                    {{  show_field(form.gender, class='form-select rounded-2  border-2')}}
+                </div>
+                <div class="mb-3">
+                    {{  show_field(form.diabetes_type, class='form-control rounded-2  border-2', placeholder='1')}}
+                </div>
+                <div class="mb-3">
+                    {{  show_field(form.email, class='form-control rounded-2  border-2', placeholder='ejemplo@correo.com')}}
+                </div>
+                <div class="mb-3">
+                  {{  show_field(form.password, class='form-control rounded-2  border-2', placeholder='*****************')}}
+                </div>
+                <button class="btn btn-primary">Registrarse</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

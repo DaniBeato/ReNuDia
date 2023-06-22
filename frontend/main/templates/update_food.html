@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+
+
+
+{% block title %}
+  Update Food
+{% endblock %}
+
+{% from 'macros/form.html' import show_field, show_submit %}
+{% block body %}
+
+    <!-- FORM -->
+    <div class="row">
+
+        <!-- MESSAGE -->
+        {% include 'partials/_message.html' %}
+
+        <div class="col-md-5 p-5">
+
+            <!-- FORM -->
+            <form action="{{ url_for('food.update_food', food_id=actual_food["id"]) }}" method="POST" class="card bg-black text-light">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="card-body p-4">
+                <h1 class="h5 mb-4">Editar alimento</h1>
+
+                <div class="mb-3">
+                    <label for="name">Inserte el nombre del alimento:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control rounded-2  border-2"
+                        placeholder="santiago@gmail.com"
+                        value="{{ actual_food.name }}"
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label for="carbohydrates">Inserte la cantidad de carbohidratos del alimento:</label>
+                    <input
+                        type="text"
+                        name="carbohydrates"
+                        class="form-control rounded-2  border-2"
+                        placeholder="6"
+                        value="{{ actual_food.carbohydrates }}"
+                    />
+                </div>
+
+                <button class="btn btn-primary">Guardar</button>
+              </div>
+            </form>
+
+        </div>
+
+        <!-- foods list -->
+        <div class="col-md-7 p-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-dark table-striped">
+                        <tr>
+                            <th> Nombre </th>
+                            <th> Cantidad de carbohidratos </th>
+                            <th>  </th>
+                        </tr>
+                        <tr>
+                            {% for food in foods %}
+                                <th>{{ food["name"] }}</th>
+                                <th>{{ food["carbohydrates"] }}</th>
+                            <td>
+                                <div class="row justify-content-md-center">
+                                    <div class="col-md-auto">
+                                        <a type="button" href="{{ url_for('food.update_food', food_id=food["id"]) }}" class="btn btn-primary me-md-3">Editar</a>
+                                        <a type="button" href="{{ url_for('food.delete_food', food_id=food["id"]) }}" class="btn btn-danger me-md-3">Eliminar</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
