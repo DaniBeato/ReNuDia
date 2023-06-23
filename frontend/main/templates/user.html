@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-md-center mt-5">
        {% include 'partials/_message.html' %}
         <div class="col-md-auto">
-            <div class="card mb-1 bg-black text-white p-5 ">
-                <div class="card-body py-5 px-5 p-5">
+            <div class="card mt-5 bg-orange text-dark ">
+                <div class="card-body py-4 px-4 p-4">
                     <div class="d-flex align-items-start flex-column">
                         {% if user["rol"] == "diabetic" %}
                             <h1 class="card-title h1">Paciente Diabético</h1>
@@ -26,7 +26,7 @@
                             {% endif %}
                             <h5 class="card-text">Edad: {{ user["age"] }}</h5>
                             <div class="col-md-auto">
-                                <a type="button" href="{{ url_for('main.update_diabetic', id=user["id"]) }}" class="btn btn-primary me-md-3 mt-3">Editar mis datos</a>
+                                <a type="button" href="{{ url_for('main.update_diabetic', id=user["id"]) }}" class="btn btn-success me-md-3 mt-3">Editar mis datos</a>
                                 <a type="button" href="{{ url_for('main.delete_user', id=user["id"]) }}" class="btn btn-danger me-md-3 mt-3">Eliminar cuenta</a>
                             </div>
                         {% else %}
@@ -43,7 +43,7 @@
                             <h5 class="card-text">Matrícula: {{ user["doctor_license"] }}</h5>
                             <h5 class="card-text">DNI: {{ user["id_card"] }}</h5>
                             <div class="col-md-auto">
-                                <a type="button" href="{{ url_for('main.update_nutritionist', id=user["id"]) }}" class="btn btn-primary me-md-3">Editar mis datos</a>
+                                <a type="button" href="{{ url_for('main.update_nutritionist', id=user["id"]) }}" class="btn btn-success me-md-3">Editar mis datos</a>
                                 <a type="button" href="{{ url_for('main.delete_user', id=user["id"]) }}" class="btn btn-danger me-md-3">Eliminar cuenta</a>
                             </div>
                         {% endif %}

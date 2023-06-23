@@ -11,45 +11,8 @@ main = Blueprint('main', __name__, url_prefix='/')
 
 
 @main.route('/', methods=['POST', "GET"])
-def main_view():
-    form = NutritionalRecordForm()
-    auth = request.cookies['access_token']
-    headers = {
-        'content-type': "application/json",
-        'authorization': "Bearer {}".format(auth)
-    }
-
-    r = requests.get(
-        current_app.config["API_URL"] + '/foods',
-        headers=headers)
-    print(r.text)
-    foods = [(item['id'], (item['name'], item['amount_sugar'])) for item in json.loads(r.text)]
-    foods.insert(0, (0, ''))
-    form.food.choices = foods
-
-    if form.validate_on_submit():
-        data = {}
-        # datetime.strptime(bolson_json.get('fecha'), '%Y-%m-%dT%H:%M:%S')
-        data["date"] = date.strftime(form.date.data, '%Y-%m-%d') + "T" + time.strftime(form.time.data, '%H:%M:%S')
-        data["glucose_value"] = form.glucose_value.data
-        data["food_id"] = form.food.data
-        data["user_id"] = current_user.id
-        print(data)
-        r = requests.post(
-            current_app.config["API_URL"] + '/nutritional_records',
-            headers=headers,
-            data=json.dumps(data)
-        )
-    data = {"user_id": current_user.id}
-    r = requests.get(
-        current_app.config["API_URL"] + '/nutritional_records',
-        headers=headers,
-        data=json.dumps(data)
-    )
-    users = json.loads(r.text)
-    print(users)
-    return render_template('/index.html', objects=users,
-                           form=form)  # ,url=url, ths_list=ths_list, url_actual=url_actual)
+def index():
+    return render_template('/index.html')
 
 
 @main.route('/main_diabetic', methods=['POST', "GET"])
@@ -284,7 +247,7 @@ def login():
 @token_vencido
 def logout():
     # Crear una request de redirección
-    req = make_response(redirect(url_for('main.login')))
+    req = make_response(redirect(url_for('main.index')))
     # Vaciar cookie
     req.set_cookie('access_token', '', httponly=True)
     # Deloguear usuario

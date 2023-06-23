@@ -13,15 +13,15 @@
     <div class="row justify-content-md-center">
         <div class="col-md-7 ">
             <div class="d-flex justify-content-center">
-                <h1 class="card mb-1 bg-black text-white">Pacientes Sin Atención</h1>
+                <h1 class="card mt-2 bg-brown text-dark p-2">Pacientes Sin Atención</h1>
             </div>
             {% for diabetics_without_nutritionist in diabetics_without_nutritionists %}
-            <div class="card mb-1 bg-black text-white mt-5">
+            <div class="card mb-1 bg-orange text-dark mt-5">
               <div class="card-body py-2 px-5">
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title h2">{{ diabetics_without_nutritionist["name"] }}  &nbsp;{{ diabetics_without_nutritionist["surname"] }}</h3>
                   <div>
-                    <a href="{{ url_for('inscription.add_diabetic_to_nutritionist', diabetic_id=diabetics_without_nutritionist["id"]) }}" class="btn btn-primary btn-xl rounded-0 p-2 mt-1">Añadir a mis pacientes</a>
+                    <a href="{{ url_for('inscription.add_diabetic_to_nutritionist', diabetic_id=diabetics_without_nutritionist["id"]) }}" class="btn btn-success btn-xl rounded-0 p-2 mt-1">Añadir a mis pacientes</a>
                   </div>
                 </div>
                 {% if diabetics_without_nutritionist["gender"] == "male" %}

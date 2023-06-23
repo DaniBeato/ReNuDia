@@ -61,7 +61,7 @@ def token_vencido(fn):
     def wrapper(*args, **kwargs):
         if current_user.is_anonymous:
             flash('Debe iniciar sesión para continuar', 'warning')
-            return redirect((url_for('main.login')))
+            return redirect((url_for('main.index')))
         return fn(*args, **kwargs)
     return wrapper
 

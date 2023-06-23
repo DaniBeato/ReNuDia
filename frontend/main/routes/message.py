@@ -87,9 +87,9 @@ def messages_nutritionist(receptor_id):
                     messages_unread_sender += message["sender"]["name"] + " " + message["sender"]["surname"] + " - "
 
         if len(messages_unread_sender) == 0:
-            flash('No tienes mensajes nuevos', 'info')
+            flash('No tienes mensajes nuevos', 'success')
         else:
-            flash('Tienes mensajes sin leer de: ' + messages_unread_sender, 'info')
+            flash('Tienes mensajes sin leer de: ' + messages_unread_sender, 'success')
 
 
     if form.validate_on_submit():
@@ -186,9 +186,9 @@ def messages_diabetic():
             new_messages = True
     print(data)
     if new_messages == True:
-        flash('Tiene nuevos mensajes sin leer', 'info')
+        flash('Tiene nuevos mensajes sin leer', 'success')
     else:
-        flash('No tiene mensajes nuevos', 'info')
+        flash('No tiene mensajes nuevos', 'success')
 
 
     return render_template('/messages_diabetic.html', messages=messages, form=form, nutritionist=nutritionist)

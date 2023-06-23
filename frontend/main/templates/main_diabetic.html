@@ -17,7 +17,7 @@
         <div class="col-md-4 mt-5">
 
             <!-- FORM -->
-            <form action="{{ url_for('main.main_diabetic') }}" method="POST" class="card bg-black text-light">
+            <form action="{{ url_for('main.main_diabetic') }}" method="POST" class="card bg-orange text-dark rounded-5  border-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="card-body p-4">
                 <h1 class="h5 mb-4">Añadir registro nutricional</h1>
@@ -48,7 +48,7 @@
                   {{  show_field(form.glucose_value, class='form-control', placeholder="120")}}
                 </div>
 
-                <button class="btn btn-primary">Guardar</button>
+                <button class="btn btn-success">Guardar</button>
               </div>
             </form>
 
@@ -58,7 +58,7 @@
         <div class="col-md-8 mt-5">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-bordered table-dark table-striped">
+                    <table class="table table-bordered bg-green table-striped border-dark ">
                         <tr>
                             <th> Fecha </th>
                             <th> Hora </th>
@@ -77,7 +77,7 @@
                             <td>
                                 <div class="row justify-content-md-center">
                                     <div class="col-md-auto">
-                                        <a type="button" href="{{ url_for('nutritional_record.update_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-primary me-md-3">Editar</a>
+                                        <a type="button" href="{{ url_for('nutritional_record.update_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-success me-md-3">Editar</a>
                                         <a type="button" href="{{ url_for('nutritional_record.delete_nutritional_record', nutritional_record_id=nutritional_record["id"]) }}" class="btn btn-danger me-md-3">Eliminar</a>
                                     </div>
                                 </div>

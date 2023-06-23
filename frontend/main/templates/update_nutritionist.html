@@ -11,41 +11,39 @@
     <div class="row justify-content-md-center">
         {% include 'partials/_message.html' %}
         <div class="col-md-auto">
-            <div class="card mb-1 bg-black text-white p-3 ">
-                <div class="card-body py-5 px-5 p-3">
-                    <div class="d-flex align-items-start flex-column">
-                        <form action="{{ url_for('main.update_nutritionist', id=user["id"]) }}" method="POST" class="card bg-black text-light">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <div class="card-body p-3">
-                                <h1 class="h5 mb-4">Actualizar Datos Del Médico Nutricionista</h1>
-                                <div class="mb-3">
-                                    {{  show_field(form.name, class='form-control rounded-2  border-2', placeholder='Nombre', value=user["name"])}}
-                                </div>
-                                <div class="mb-3">
-                                    {{  show_field(form.surname, class='form-control rounded-2  border-2', placeholder='Apellido', value=user["surname"])}}
-                                </div>
-                                <div class="mb-3">
-                                  {{  show_field(form.age, class='form-control rounded-2  border-2', placeholder='23', value=user["age"])}}
-                                </div>
-                                <div class="mb-3">
-                                  {{  show_field(form.gender, class='form-select rounded-2  border-2')}}
-                                </div>
-                                <div class="mb-3">
-                                  {{  show_field(form.doctor_license, class='form-control rounded-2  border-2', placeholder='3245', value=user["doctor_license"])}}
-                                </div>
-                                <div class="mb-3">
-                                  {{  show_field(form.id_card, class='form-control rounded-2  border-2', placeholder='40921254', value=user["id_card"])}}
-                                </div>
-                                <div class="mb-3">
-                                  {{  show_field(form.email, class='form-control rounded-2  border-2', placeholder='ejemplo@correo.com', value=user["email"])}}
-                                  </div>
-                                <div class="mb-3">
-                                  {{  show_field(form.password, class='form-control rounded-2  border-2', placeholder='****************')}}
-                                </div>
-                                <button class="btn btn-primary">Editar</button>
+            <div class="card-body py-5 px-5 p-3">
+                <div class="d-flex align-items-start flex-column">
+                    <form action="{{ url_for('main.update_nutritionist', id=user["id"]) }}" method="POST" class="card bg-orange text-dark">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <div class="card-body p-3">
+                            <h1 class="h5 mb-4">Actualizar Datos Del Médico Nutricionista</h1>
+                            <div class="mb-3">
+                                {{  show_field(form.name, class='form-control rounded-2  border-2', placeholder='Nombre', value=user["name"])}}
                             </div>
-                        </form>
-                    </div>
+                            <div class="mb-3">
+                                {{  show_field(form.surname, class='form-control rounded-2  border-2', placeholder='Apellido', value=user["surname"])}}
+                            </div>
+                            <div class="mb-3">
+                              {{  show_field(form.age, class='form-control rounded-2  border-2', placeholder='23', value=user["age"])}}
+                            </div>
+                            <div class="mb-3">
+                              {{  show_field(form.gender, class='form-select rounded-2  border-2')}}
+                            </div>
+                            <div class="mb-3">
+                              {{  show_field(form.doctor_license, class='form-control rounded-2  border-2', placeholder='3245', value=user["doctor_license"])}}
+                            </div>
+                            <div class="mb-3">
+                              {{  show_field(form.id_card, class='form-control rounded-2  border-2', placeholder='40921254', value=user["id_card"])}}
+                            </div>
+                            <div class="mb-3">
+                              {{  show_field(form.email, class='form-control rounded-2  border-2', placeholder='ejemplo@correo.com', value=user["email"])}}
+                              </div>
+                            <div class="mb-3">
+                              {{  show_field(form.password, class='form-control rounded-2  border-2', placeholder='****************')}}
+                            </div>
+                            <button class="btn btn-success">Editar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
