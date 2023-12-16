@@ -33,7 +33,7 @@ class UserRepository:
         user = self.users.query.get(id)
         for key, value in data:
             if key == 'password':
-                setattr(user, key, generate_password_hash(value))
+                setattr(user, key, generate_password_hash(value, method='pbkdf2:sha256'))
             else:
                 setattr(user, key, value)
         db.session.add(user)

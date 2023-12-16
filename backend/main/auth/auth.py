@@ -34,7 +34,7 @@ def register():
     session = db.session.session_factory()
     user = user_schema.load(request.get_json(), session=session)
     print(user)
-    user.password = generate_password_hash(user.password)
+    user.password = generate_password_hash(user.password, method='pbkdf2:sha256')
     exist = db.session.query(UserModel).filter(UserModel.email == user.email).scalar() is not None
     if exist:
         return 'Email duplicado', 409

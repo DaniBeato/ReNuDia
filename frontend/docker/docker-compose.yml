@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+   frontend:
+    container_name: renudia-frontend
+    image: renudiafront:dev
+    ports:
+      - "86:6000"
+    environment:
+      - PORT=6000
+      - API_URL=${API_URL}
+      - SECRET_KEY=${SECRET_KEY}
+    networks:
+      - red
+
+    restart: always
+
+networks:
+  red:
