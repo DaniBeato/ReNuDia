@@ -6,7 +6,7 @@ services:
     ports:
       - "86:6000"
     environment:
-      - PORT=6000
+      - PORT=${PORT}
       - API_URL=${API_URL}
       - SECRET_KEY=${SECRET_KEY}
     networks:
