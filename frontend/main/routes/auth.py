@@ -59,7 +59,7 @@ def diabetic_required(fn):
 def token_vencido(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if current_user.is_anonymous:
+        if not current_user.is_authenticated:
             flash('Debe iniciar sesión para continuar', 'warning')
             return redirect((url_for('main.index')))
         return fn(*args, **kwargs)
